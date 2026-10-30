@@ -1,0 +1,11 @@
+Sr No,Topic,Question,Difficulty,Tags
+1,DSA,What is binary search?,Medium,binary-search, searching, arrays, algorithms
+2,DSA,How to implement quicksort?,Hard,sorting, quicksort, recursion, arrays, divide-and-conquer
+3,DSA,Explain merge sort algorithm,Medium,sorting, merge-sort, divide-and-conquer, algorithms
+4,Networks,What is TCP/IP handshake?,Medium,tcp-ip, networking, protocols, handshake, osi-model
+5,OS,Explain page replacement algorithms,Hard,paging, memory-management, operating-systems, fifo, lru
+6,DSA,Find the kth largest element,Medium,arrays, heap, quickselect, sorting, algorithms
+7,DSA,Detect cycle in linked list,Medium,linked-list, cycle-detection, floyd-algorithm, pointers
+8,DSA,Longest substring without repeating,Medium,strings, sliding-window, hash-map, dynamic-programming
+9,Networks,Explain DNS resolution,Medium,dns, networking, domain-name-system, protocols, udp
+10,OS,Deadlock detection and prevention,Hard,deadlock, concurrency, operating-systems, synchronization, mutex

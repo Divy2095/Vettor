@@ -1,0 +1,10 @@
+%% Data pipeline flowchart
+flowchart TD
+    U[Upload Resume File] --> TX[Text Extraction (pdf/docx->text)]
+    TX --> SEG[Section Segmentation]
+    SEG --> EXT[Entity & Skill Extraction]
+    EXT --> EMB[Embedding (sentence-transformer)]
+    EMB --> RET[Retrieve candidate questions (FAISS)]
+    RET --> RANK[Rank & Deduplicate]
+    RANK --> RESP[API Response: Top-k Questions]
+    RESP --> UI[Frontend / Interviewer]

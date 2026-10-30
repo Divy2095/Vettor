@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: resume-ai-ml-pipeline
+    env: docker
+    plan: free
+    rootDir: ML_Preprocessor_scripts
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        sync: false
+      - key: LIGHTWEIGHT_ML_MODE
+        value: true

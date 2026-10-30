@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 40 33% 98%;
+    --foreground: 20 14.3% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 24.6 95% 53.1%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 24.6 95% 53.1%;
+    --radius: 1rem;
+  }
+ 
+  .dark {
+    --background: 35 6% 9%;
+    --foreground: 38 18% 90%;
+    --card: 34 6% 12%;
+    --card-foreground: 38 18% 90%;
+    --popover: 35 6% 10%;
+    --popover-foreground: 38 18% 90%;
+    --primary: 24 88% 52%;
+    --primary-foreground: 35 20% 96%;
+    --secondary: 34 6% 15%;
+    --secondary-foreground: 38 18% 90%;
+    --muted: 34 6% 15%;
+    --muted-foreground: 35 10% 70%;
+    --accent: 34 6% 15%;
+    --accent-foreground: 38 18% 90%;
+    --destructive: 0 72.2% 50.6%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 34 6% 21%;
+    --input: 34 6% 21%;
+    --ring: 24 88% 52%;
+  }
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(circle at 22% 12%, rgba(218, 124, 66, 0.08), transparent 30%),
+      radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.03), transparent 25%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 40%);
+    background-color: hsl(var(--background));
+  }
+}
+
+@layer utilities {
+  .dark .dark\:bg-slate-950 {
+    background-color: hsl(35 6% 9%) !important;
+  }
+
+  .dark .dark\:bg-slate-900,
+  .dark .dark\:bg-slate-900\/70,
+  .dark .dark\:bg-slate-900\/80 {
+    background-color: hsl(34 6% 11%) !important;
+  }
+
+  .dark .dark\:bg-slate-800,
+  .dark .dark\:bg-slate-800\/60,
+  .dark .dark\:bg-slate-800\/70,
+  .dark .dark\:bg-slate-800\/80 {
+    background-color: hsl(34 6% 13%) !important;
+  }
+
+  .dark .dark\:bg-slate-700\/30,
+  .dark .dark\:bg-slate-700\/40,
+  .dark .dark\:bg-slate-700\/50,
+  .dark .dark\:bg-slate-700\/80 {
+    background-color: hsl(34 6% 16%) !important;
+  }
+
+  .dark .dark\:border-slate-700,
+  .dark .dark\:border-slate-700\/40,
+  .dark .dark\:border-slate-700\/50,
+  .dark .dark\:border-slate-700\/60 {
+    border-color: hsl(34 6% 22%) !important;
+  }
+}

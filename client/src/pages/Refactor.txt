@@ -1,0 +1,8 @@
+Done Refactoring AuthPage.jsx 
+need to verify logic issue
+
+LandingPage is a static code so just simple Hardcoded stuff is there no big logic.
+updated code so still need to check how it behaves...
+
+Simplified VerifyEmial logic 
+

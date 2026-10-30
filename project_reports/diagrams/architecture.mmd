@@ -1,0 +1,18 @@
+%% Architecture diagram for Resume based AI Interview Question Finder
+flowchart LR
+    A[User / Frontend] -->|upload resume| B(API Gateway / FastAPI)
+    B --> C(Resume Ingestor)
+    C --> D(Preprocessor & NER)
+    D --> E(Embedding Service)
+    E --> F(FAISS Vector Store)
+    F --> G(Retriever)
+    G --> H(Ranker & Scorer)
+    H --> B
+    B -->|return| A
+
+    subgraph ML Services
+        E
+        F
+        G
+        H
+    end

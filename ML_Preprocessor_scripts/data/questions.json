@@ -1,0 +1,2847 @@
+[
+  {
+    "sr no": 1,
+    "topic": "HTML",
+    "question": "What is the difference between HTML elements and tags?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 2,
+    "topic": "HTML",
+    "question": "Define the HTML5 Semantic Elements and why they are important for SEO.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 3,
+    "topic": "CSS",
+    "question": "Explain the CSS Box Model and how box-sizing: border-box changes it.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 4,
+    "topic": "DOM",
+    "question": "What is the DOM (Document Object Model) and how does the browser render it?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 5,
+    "topic": "CSS",
+    "question": "How do CSS Selectors work in terms of specificity and priority?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 6,
+    "topic": "Web Development",
+    "question": "Explain the difference between \"Prototypal Inheritance\" and \"Classical Inheritance.\"",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 7,
+    "topic": "Web Development",
+    "question": "What is the difference between display: none and visibility: hidden?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 8,
+    "topic": "Web Development",
+    "question": "What is a \"Single Page Application\" (SPA) vs. a \"Multi-Page Application\" (MPA)?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 9,
+    "topic": "Web Development",
+    "question": "Define \"Rate Limiting\" and \"Throttling\" from a security perspective.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 10,
+    "topic": "Web Development",
+    "question": "What is \"Prefetching,\" \"Preloading,\" and \"Preconnecting\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 11,
+    "topic": "JavaScript",
+    "question": "Define \"Hoisting\" in JavaScript.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 12,
+    "topic": "Web Development",
+    "question": "Define \"LocalStorage,\" \"SessionStorage,\" and \"Cookies.\" Compare their storage limits.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 13,
+    "topic": "Web Development",
+    "question": "What is the difference between var, let, and const in terms of scope?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 14,
+    "topic": "JavaScript",
+    "question": "What is the difference between \"Strict Mode\" and \"Sloppy Mode\" in JavaScript?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 15,
+    "topic": "JavaScript",
+    "question": "Explain the \"Event Loop\" in JavaScript and how it handles asynchronous tasks.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 16,
+    "topic": "Web Development",
+    "question": "What is AJAX and how does the fetch API improve upon XMLHttpRequest?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 17,
+    "topic": "JavaScript",
+    "question": "What are Closures in JavaScript? Provide a practical use case.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 18,
+    "topic": "Web Development",
+    "question": "Explain the concept of \"Promises\" and how they solve \"Callback Hell.\"",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 19,
+    "topic": "Web Development",
+    "question": "Explain the difference between == and === operators.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 20,
+    "topic": "Web Development",
+    "question": "What is \"Event Bubbling\" and \"Event Capturing\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 21,
+    "topic": "Web Development",
+    "question": "Define \"Tree Shaking\" and explain how it reduces the final bundle size.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 22,
+    "topic": "Web Development",
+    "question": "What is \"Code Splitting\" and how is it implemented using Dynamic Imports?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 23,
+    "topic": "Web Development",
+    "question": "What is the difference between \"Authentication\" and \"Authorization\" in a web app?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 24,
+    "topic": "Web Development",
+    "question": "What is a \"Database Index\" and why shouldn't you index every column in a table?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 25,
+    "topic": "Web Development",
+    "question": "Explain the \"Client-Server Model\" and the role of \"Middleware\" in the request-response cycle.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 26,
+    "topic": "Web Development",
+    "question": "What is \"Session-based Authentication\" vs. \"Token-based Authentication\" (JWT)?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 27,
+    "topic": "Web Development",
+    "question": "What is \"Database Normalization\" and why is 3NF (Third Normal Form) usually the standard?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 28,
+    "topic": "Web Development",
+    "question": "Define \"Idempotency\" and identify which HTTP methods (GET, POST, PUT, DELETE) are idempotent.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 29,
+    "topic": "Web Development",
+    "question": "Define \"Horizontal Scaling\" vs. \"Vertical Scaling\" for a web server.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 30,
+    "topic": "Web Development",
+    "question": "Explain the concept of \"Object-Relational Mapping\" (ORM). What are its pros and cons?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 31,
+    "topic": "Web Development",
+    "question": "What is \"Rate Limiting\" and how does it protect an API from abuse?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 32,
+    "topic": "Web Development",
+    "question": "Explain the \"N+1 Query Problem\" and how \"Eager Loading\" solves it.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 33,
+    "topic": "Web Development",
+    "question": "How does \"Debouncing\" differ from \"Throttling\" in event handling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 34,
+    "topic": "Web Development",
+    "question": "Explain the \"Same-Origin Policy\" and how CORS (Cross-Origin Resource Sharing) works.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 35,
+    "topic": "DOM",
+    "question": "What is the \"Virtual DOM\" and how does it improve performance in libraries like React?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 36,
+    "topic": "Web Development",
+    "question": "What is \"State Management\" and why is it needed in large-scale applications?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 37,
+    "topic": "Web Development",
+    "question": "Explain the \"Model-View-Controller\" (MVC) architecture in web development.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 38,
+    "topic": "Web Development",
+    "question": "Explain the concept of \"Dependency Injection\" in frameworks like Angular.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 39,
+    "topic": "Web Development",
+    "question": "What is \"Server-Side Rendering\" (SSR) vs. \"Client-Side Rendering\" (CSR)?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 40,
+    "topic": "DOM",
+    "question": "What are \"Web Components\" and the \"Shadow DOM\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 41,
+    "topic": "Web Development",
+    "question": "Define \"Progressive Web Apps\" (PWAs) and their core features like Service Workers.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 42,
+    "topic": "Web Development",
+    "question": "Define \"Hydration\" in the context of modern web frameworks.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 43,
+    "topic": "JavaScript",
+    "question": "What is \"Tree Shaking\" in JavaScript bundlers?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 44,
+    "topic": "Web Development",
+    "question": "Explain the \"Micro-Frontend\" architecture.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 45,
+    "topic": "Web Development",
+    "question": "What is the difference between REST and SOAP web services?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 46,
+    "topic": "Web Development",
+    "question": "Define the standard HTTP Status Codes (200, 301, 400, 401, 404, 500).",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 47,
+    "topic": "Web Development",
+    "question": "What is the difference between \"Authentication\" and \"Authorization\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 48,
+    "topic": "Web Development",
+    "question": "What is GraphQL and how does it solve \"Over-fetching\" and \"Under-fetching\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 49,
+    "topic": "Web Development",
+    "question": "Explain \"Cross-Site Request Forgery\" (CSRF) and the role of Anti-CSRF tokens.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 50,
+    "topic": "JavaScript",
+    "question": "Explain \"JSON Web Tokens\" (JWT) and how they are used for authentication.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 51,
+    "topic": "Web Development",
+    "question": "Define \"Content Security Policy\" (CSP).",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 52,
+    "topic": "Web Development",
+    "question": "What is \"Cross-Site Scripting\" (XSS) and how can it be prevented?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 53,
+    "topic": "Web Development",
+    "question": "How does \"HTTPS\" differ from \"HTTP\" at the protocol level?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 54,
+    "topic": "Web Development",
+    "question": "What is a \"Content Delivery Network\" (CDN) and how does it reduce latency?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 55,
+    "topic": "Web Development",
+    "question": "What is \"WebAssembly\" (Wasm) and when should it be used?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 56,
+    "topic": "Web Development",
+    "question": "Explain \"WebSockets\" and how they differ from traditional HTTP polling.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 57,
+    "topic": "Web Development",
+    "question": "Explain the concept of \"Containerization\" (Docker) in web deployment.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 58,
+    "topic": "Web Development",
+    "question": "What is \"Lazy Loading\" and how does it improve initial page load time?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 59,
+    "topic": "Web Development",
+    "question": "Define \"Responsive Web Design\" vs. \"Adaptive Web Design.\"",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 60,
+    "topic": "Web Development",
+    "question": "Define \"Critical Rendering Path.\"",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 61,
+    "topic": "Web Development",
+    "question": "What are \"Web Vitals\" (LCP, FID, CLS) and why does Google use them for ranking?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 62,
+    "topic": "Web Development",
+    "question": "What is \"Database Normalization\" and what are the 1NF, 2NF, and 3NF rules?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 63,
+    "topic": "Web Development",
+    "question": "Explain \"HTTP/2\" features like Multiplexing and Server Push.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 64,
+    "topic": "Web Development",
+    "question": "Define \"ACID\" properties in the context of database transactions.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 65,
+    "topic": "Web Development",
+    "question": "Explain the difference between SQL and NoSQL databases. When would you choose one over the other?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 66,
+    "topic": "Web Development",
+    "question": "What is \"Serverless Architecture\" (FaaS)?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 67,
+    "topic": "Web Development",
+    "question": "What is an \"API Gateway\" and what are its primary responsibilities?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 68,
+    "topic": "Web Development",
+    "question": "What are \"BASE\" properties in distributed systems?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 69,
+    "topic": "Web Development",
+    "question": "What is a \"N+1 Query Problem\" in ORM frameworks and how do you solve it?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 70,
+    "topic": "Web Development",
+    "question": "Explain \"Database Indexing\" and how it improves query performance.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 71,
+    "topic": "Web Development",
+    "question": "What is the \"SameSite\" attribute in cookies and how does it prevent CSRF?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 72,
+    "topic": "Web Development",
+    "question": "What is \"Middleware\" in the context of a backend framework like Express or Django?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 73,
+    "topic": "Web Development",
+    "question": "Explain the difference between \"Vertical Scaling\" and \"Horizontal Scaling.\"",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 74,
+    "topic": "Web Development",
+    "question": "Define \"Sharding\" vs. \"Replication\" in database scaling.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 75,
+    "topic": "Web Development",
+    "question": "What is \"Connection Pooling\" and why is it important for high-traffic applications?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 76,
+    "topic": "Web Development",
+    "question": "What is \"SQL Injection\" and how do \"Prepared Statements\" prevent it?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 77,
+    "topic": "Web Development",
+    "question": "Define \"Insecure Direct Object References\" (IDOR).",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 78,
+    "topic": "Web Development",
+    "question": "Explain \"HSTS\" (HTTP Strict Transport Security).",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 79,
+    "topic": "Web Development",
+    "question": "What is the difference between \"Symmetric\" and \"Asymmetric\" encryption?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 80,
+    "topic": "Web Development",
+    "question": "Explain \"Gzip\" and \"Brotli\" compression for web assets.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 81,
+    "topic": "Web Development",
+    "question": "Explain the \"Principle of Least Privilege\" in web server configuration.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 82,
+    "topic": "Web Development",
+    "question": "What is \"Minification\" and how does it differ from \"Obfuscation\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 83,
+    "topic": "Web Development",
+    "question": "Explain \"Salting\" and \"Peppering\" in the context of password hashing.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 84,
+    "topic": "Web Development",
+    "question": "What is \"Clickjacking\" and how does the X-Frame-Options header mitigate it?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 85,
+    "topic": "Web Development",
+    "question": "What is \"OAuth 2.0\" and how does it differ from \"OpenID Connect\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 86,
+    "topic": "Web Development",
+    "question": "Explain the \"Flux\" architecture and how it differs from traditional MVC.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 87,
+    "topic": "Web Development",
+    "question": "What is \"Controlled\" vs. \"Uncontrolled\" components in form handling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 88,
+    "topic": "Web Development",
+    "question": "How does \"Content Security Policy\" (CSP) help in mitigating XSS attacks?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 89,
+    "topic": "Web Development",
+    "question": "Define \"Higher-Order Components\" (HOC) and their use cases.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 90,
+    "topic": "Web Development",
+    "question": "What is \"Data Binding\" and how does \"One-way\" differ from \"Two-way\" binding?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 91,
+    "topic": "Web Development",
+    "question": "What is the difference between \"State\" and \"Props\" in component-based frameworks?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 92,
+    "topic": "Web Development",
+    "question": "Explain the \"Single Responsibility Principle\" in the context of Web Components.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 93,
+    "topic": "Web Development",
+    "question": "What is the difference between \"Persistent Connections\" (HTTP Keep-Alive) and \"WebSockets\"?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 94,
+    "topic": "Web Development",
+    "question": "Define \"First Contentful Paint\" (FCP) vs. \"Largest Contentful Paint\" (LCP).",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 95,
+    "topic": "Web Development",
+    "question": "How does \"Image Optimization\" (WebP, Avif, Responsive Images) affect Core Web Vitals?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 96,
+    "topic": "Web Development",
+    "question": "Explain \"Browser Caching\" and the use of the Cache-Control header.",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 97,
+    "topic": "Web Development",
+    "question": "What is the \"Main Thread\" in a browser and how do \"Web Workers\" help offload it?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 1,
+    "topic": "Basics of OS",
+    "question": "Explain the main purpose of an operating system?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 2,
+    "topic": "Basics of OS",
+    "question": "What problem we face in computer system without OS?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 3,
+    "topic": "Basics of OS",
+    "question": "What is the best page size when designing an operating system?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 4,
+    "topic": "Basics of OS",
+    "question": "What is a bootstrap program in the OS?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 5,
+    "topic": "Basics of OS",
+    "question": "What is the difference between the Operating system and kernel?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 6,
+    "topic": "CPU Scheduling",
+    "question": "What are the different scheduling algorithms",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 7,
+    "topic": "CPU Scheduling",
+    "question": "What is the RR scheduling algorithm?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 8,
+    "topic": "CPU Scheduling",
+    "question": "What is Banker's algorithm?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 9,
+    "topic": "CPU Scheduling",
+    "question": "What is the difference between preemptive and non-preemptive scheduling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 10,
+    "topic": "CPU Scheduling",
+    "question": "What are the goals of CPU scheduling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 11,
+    "topic": "CPU Scheduling",
+    "question": "What is a Banker's algorithm?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 12,
+    "topic": "CPU Scheduling",
+    "question": "Write an advantage of dynamic allocation algorithms?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 13,
+    "topic": "Deadlocks",
+    "question": "What is a deadlock?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 14,
+    "topic": "Deadlocks",
+    "question": "Can deadlock be completely avoided?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 15,
+    "topic": "File System",
+    "question": "Write down the basic concept of the file system?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 16,
+    "topic": "File System",
+    "question": "What is file allocation methods?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 17,
+    "topic": "General OS Concepts",
+    "question": "What is Thrashing?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 18,
+    "topic": "General OS Concepts",
+    "question": "What is Buffer?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 19,
+    "topic": "General OS Concepts",
+    "question": "What is a kernel?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 20,
+    "topic": "General OS Concepts",
+    "question": "Describe the objective of multi-programming?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 21,
+    "topic": "General OS Concepts",
+    "question": "What is the time-sharing system?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 22,
+    "topic": "General OS Concepts",
+    "question": "Briefly explain FCFS?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 23,
+    "topic": "General OS Concepts",
+    "question": "Enumerate the different RAID levels?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 24,
+    "topic": "General OS Concepts",
+    "question": "What are overlays?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 25,
+    "topic": "General OS Concepts",
+    "question": "What is the Direct Access Method?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 26,
+    "topic": "General OS Concepts",
+    "question": "When does thrashing occur?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 27,
+    "topic": "General OS Concepts",
+    "question": "What is multitasking?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 28,
+    "topic": "General OS Concepts",
+    "question": "What is caching?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 29,
+    "topic": "General OS Concepts",
+    "question": "What is spooling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 30,
+    "topic": "General OS Concepts",
+    "question": "What are interrupts?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 31,
+    "topic": "General OS Concepts",
+    "question": "What is GUI?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 32,
+    "topic": "General OS Concepts",
+    "question": "What is preemptive multitasking?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 33,
+    "topic": "General OS Concepts",
+    "question": "What is a pipe and when is it used?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 34,
+    "topic": "General OS Concepts",
+    "question": "What is IPC?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 35,
+    "topic": "General OS Concepts",
+    "question": "What are the different IPC mechanisms?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 36,
+    "topic": "General OS Concepts",
+    "question": "Write about monolithic kernel?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 37,
+    "topic": "General OS Concepts",
+    "question": "What is Context Switching?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 38,
+    "topic": "General OS Concepts",
+    "question": "What is PCB?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 39,
+    "topic": "General OS Concepts",
+    "question": "When is a system in a safe state?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 40,
+    "topic": "General OS Concepts",
+    "question": "What is Cycle Stealing?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 41,
+    "topic": "General OS Concepts",
+    "question": "What is a dispatcher?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 42,
+    "topic": "General OS Concepts",
+    "question": "Define the term dispatch latency?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 43,
+    "topic": "General OS Concepts",
+    "question": "What are the drawbacks of semaphores?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 44,
+    "topic": "General OS Concepts",
+    "question": "What is concurrency?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 45,
+    "topic": "General OS Concepts",
+    "question": "Write a drawback of concurrency?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 46,
+    "topic": "General OS Concepts",
+    "question": "Write a difference between physical address and logical address?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 47,
+    "topic": "General OS Concepts",
+    "question": "Explain address binding?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 48,
+    "topic": "General OS Concepts",
+    "question": "Write about the advantages and disadvantages of a hashed-page table?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 49,
+    "topic": "General OS Concepts",
+    "question": "What is seek time?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 50,
+    "topic": "General OS Concepts",
+    "question": "What are real-time systems?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 51,
+    "topic": "General OS Concepts",
+    "question": "What happens during interrupt handling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 52,
+    "topic": "General OS Concepts",
+    "question": "What happens during context switching?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 53,
+    "topic": "I/O & Disk Management",
+    "question": "What is fragmentation?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 54,
+    "topic": "I/O & Disk Management",
+    "question": "What are starvation and aging in OS?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 55,
+    "topic": "I/O & Disk Management",
+    "question": "Explain the resource allocation graph?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 56,
+    "topic": "I/O & Disk Management",
+    "question": "Explain the resource allocation graph?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 57,
+    "topic": "I/O & Disk Management",
+    "question": "Write a difference between internal fragmentation and external fragmentation?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 58,
+    "topic": "I/O & Disk Management",
+    "question": "What is rotational latency?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 59,
+    "topic": "Memory Management",
+    "question": "What is virtual memory?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 60,
+    "topic": "Memory Management",
+    "question": "What is demand paging and how it works?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 61,
+    "topic": "Memory Management",
+    "question": "How does dynamic loading aid in better memory space utilization?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 62,
+    "topic": "Memory Management",
+    "question": "What is the basic function of paging?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 63,
+    "topic": "Memory Management",
+    "question": "How does swapping result in better memory management?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 64,
+    "topic": "Memory Management",
+    "question": "What is the goal and functionality of memory management?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 65,
+    "topic": "Memory Management",
+    "question": "Write a difference between paging and segmentation?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 66,
+    "topic": "Memory Management",
+    "question": "Write down the advantages of virtual memory?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 67,
+    "topic": "Memory Management",
+    "question": "What happens when system runs out of memory?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 68,
+    "topic": "Process & Thread Management",
+    "question": "What is a process and process table?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 69,
+    "topic": "Process & Thread Management",
+    "question": "What are the different states of the process?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 70,
+    "topic": "Process & Thread Management",
+    "question": "What is a Thread?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 71,
+    "topic": "Process & Thread Management",
+    "question": "What are the differences between process and thread?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 72,
+    "topic": "Process & Thread Management",
+    "question": "What are the benefits of multithreaded programming?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 73,
+    "topic": "Process & Thread Management",
+    "question": "Give some benefits of multithreaded programming?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 74,
+    "topic": "Process & Thread Management",
+    "question": "What is the zombie process?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 75,
+    "topic": "Process & Thread Management",
+    "question": "What is the difference between process and thread",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 76,
+    "topic": "Process & Thread Management",
+    "question": "Write a difference between program and process?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 77,
+    "topic": "Process & Thread Management",
+    "question": "Write down the advantages of multithreading?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 78,
+    "topic": "Process & Thread Management",
+    "question": "Difference between Multithreading and Multitasking?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 79,
+    "topic": "Process & Thread Management",
+    "question": "What are the advantages of a multiprocessor system?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 80,
+    "topic": "Process & Thread Management",
+    "question": "What happens during process creation?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 1,
+    "topic": "Software Basics",
+    "question": "What are the Characteristics of Software?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 2,
+    "topic": "Software Basics",
+    "question": "What are the Various Categories of Software?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 3,
+    "topic": "SDLC",
+    "question": "Explain SDLC and its Phases?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 4,
+    "topic": "SDLC",
+    "question": "What are different SDLC Models Available?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 5,
+    "topic": "SDLC Models",
+    "question": "What is the Waterfall Method and What are its Use Cases?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 6,
+    "topic": "Software Testing",
+    "question": "What is Black Box Testing?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 7,
+    "topic": "Software Testing",
+    "question": "What is White Box Testing?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 8,
+    "topic": "Software Testing",
+    "question": "Distinguish between Alpha and Beta Testing?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 9,
+    "topic": "General SE",
+    "question": "What is Debugging?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 10,
+    "topic": "General SE",
+    "question": "What is a Feasibility Study?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 11,
+    "topic": "General SE",
+    "question": "What is a Use Case Diagram?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 12,
+    "topic": "General SE",
+    "question": "What is the difference between Verification and Validation?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 13,
+    "topic": "General SE",
+    "question": "What is a Baseline?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 14,
+    "topic": "General SE",
+    "question": "What is Cohesion and Coupling?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 15,
+    "topic": "Agile",
+    "question": "What is the Agile software development model?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 16,
+    "topic": "General SE",
+    "question": "What is the Difference Between Quality Assurance and Quality Control?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 17,
+    "topic": "General SE",
+    "question": "What is the Spiral Model, and its Disadvantages?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 18,
+    "topic": "General SE",
+    "question": "What is the RAD Model, and its limitations?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 19,
+    "topic": "Software Testing",
+    "question": "What is Regression Testing?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 20,
+    "topic": "General SE",
+    "question": "What are CASE Tools?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 21,
+    "topic": "General SE",
+    "question": "What is Physical and Logical DFD",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 22,
+    "topic": "General SE",
+    "question": "What is Software Re-engineering?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 23,
+    "topic": "General SE",
+    "question": "What is Reverse Engineering?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 24,
+    "topic": "General SE",
+    "question": "What are Software Project Estimation Techniques Available?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 25,
+    "topic": "General SE",
+    "question": "What is SRS?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 26,
+    "topic": "General SE",
+    "question": "What is level-0 DFD?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 27,
+    "topic": "General SE",
+    "question": "What Activities Come Under the Umbrella Activities?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 28,
+    "topic": "Software Testing",
+    "question": "Which of the Testing is Used for Fault Simulation?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 29,
+    "topic": "General SE",
+    "question": "Which Model is Used to Check Software Reliability?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 30,
+    "topic": "General SE",
+    "question": "What is the Difference between Risk and Uncertainty?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 31,
+    "topic": "General SE",
+    "question": "What are the elements to be considered in the System Model Construction?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 32,
+    "topic": "General SE",
+    "question": "What is data dictionary?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 33,
+    "topic": "Software Design",
+    "question": "What is ER diagram in system design?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 34,
+    "topic": "Software Design",
+    "question": "What is normalization in database design?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 35,
+    "topic": "Requirements Engineering",
+    "question": "What is requirement validation process?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 36,
+    "topic": "General SE",
+    "question": "What is class diagram?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 37,
+    "topic": "General SE",
+    "question": "What is sequence diagram?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 38,
+    "topic": "General SE",
+    "question": "What is state diagram?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 39,
+    "topic": "General SE",
+    "question": "What is component diagram?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 40,
+    "topic": "General SE",
+    "question": "What is deployment diagram?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 41,
+    "topic": "General SE",
+    "question": "How do you manage high traffic?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 42,
+    "topic": "General SE",
+    "question": "What if database crashes?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 43,
+    "topic": "General SE",
+    "question": "How do you ensure data consistency?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 44,
+    "topic": "General SE",
+    "question": "How to improve system reliability?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 45,
+    "topic": "General SE",
+    "question": "What if software is too slow?",
+    "difficulty": null,
+    "tags": []
+  },
+  {
+    "sr no": 1,
+    "topic": "Array",
+    "question": "What is the time complexity for accessing an element in an array",
+    "difficulty": "Hard",
+    "tags": [
+      "array",
+      "complexity",
+      "complexity analysis",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 2,
+    "topic": "Array",
+    "question": "What is the difference between fixed sized and dynamic sized arrays?",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "comparison",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 3,
+    "topic": "Array",
+    "question": "Why is it important that arrays use contiguous memory locations, and what problems can arise if they did not?",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 4,
+    "topic": "Array",
+    "question": "What is the time complexity to search in an unsorted and sorted array ?",
+    "difficulty": "Hard",
+    "tags": [
+      "array",
+      "complexity",
+      "complexity analysis",
+      "search",
+      "searching",
+      "sorting",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 5,
+    "topic": "Array",
+    "question": "What are the time complexities to insert and delete at the beginning and end if we have extra space in the array for the new element?",
+    "difficulty": "Hard",
+    "tags": [
+      "array"
+    ]
+  },
+  {
+    "sr no": 6,
+    "topic": "Array",
+    "question": "What is an array index out of bounds exception?",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 7,
+    "topic": "Array",
+    "question": "Discuss the advantages and disadvantages of using arrays",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 8,
+    "topic": "Array",
+    "question": "How do array differ from linked lists?",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "linked list"
+    ]
+  },
+  {
+    "sr no": 9,
+    "topic": "Array",
+    "question": "Explain the concept of a sparse array",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 10,
+    "topic": "Array",
+    "question": "Explain the concept of a multi-dimensional array",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 11,
+    "topic": "Array",
+    "question": "How do you find missing number from 1 to n",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "math",
+      "problem solving",
+      "traversal"
+    ]
+  },
+  {
+    "sr no": 12,
+    "topic": "Array",
+    "question": "How would you find the maximum subarray sum?",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "math",
+      "problem solving"
+    ]
+  },
+  {
+    "sr no": 13,
+    "topic": "Array",
+    "question": "When should you NOT use arrays",
+    "difficulty": "Medium",
+    "tags": [
+      "array"
+    ]
+  },
+  {
+    "sr no": 14,
+    "topic": "Matrix",
+    "question": "How would you check if a given matrix is symmetric?",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "problem solving",
+      "traversal"
+    ]
+  },
+  {
+    "sr no": 15,
+    "topic": "Matrix",
+    "question": "How would you find the kth smallest element in a 2D matrix sorted both row-wise and column-wise?",
+    "difficulty": "Hard",
+    "tags": [
+      "matrix",
+      "problem solving",
+      "sorting"
+    ]
+  },
+  {
+    "sr no": 16,
+    "topic": "Matrix",
+    "question": "What are the applications of sparse matrices?",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix"
+    ]
+  },
+  {
+    "sr no": 17,
+    "topic": "Matrix",
+    "question": "How can you flatten a 2D matrix into a 1D array without using extra space?",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "matrix"
+    ]
+  },
+  {
+    "sr no": 18,
+    "topic": "Matrix",
+    "question": "What is the time complexity to access an element in matrix?",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "matrix",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 19,
+    "topic": "Matrix",
+    "question": "Why is naive matrix multiplication inefficient?",
+    "difficulty": "Medium",
+    "tags": [
+      "matrix",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 20,
+    "topic": "Matrix",
+    "question": "What is difference between dense and sparse matrix?",
+    "difficulty": "Easy",
+    "tags": [
+      "comparison",
+      "matrix",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 21,
+    "topic": "Linked list",
+    "question": "What are the advantages of a Linked List?",
+    "difficulty": "Easy",
+    "tags": [
+      "linked list",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 22,
+    "topic": "Linked list",
+    "question": "What is time complexity of Linked List operations like insertion and deletion?",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "linked list",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 23,
+    "topic": "Linked list",
+    "question": "Why is merge sort better than quicksort in a singly linked list?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list",
+      "merge sort",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 24,
+    "topic": "Linked list",
+    "question": "What are the applications of a Doubly Linked List?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list"
+    ]
+  },
+  {
+    "sr no": 25,
+    "topic": "Linked list",
+    "question": "Why is random access not possible in linked list?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 26,
+    "topic": "Linked list",
+    "question": "How do you detect a cycle?",
+    "difficulty": "Medium",
+    "tags": [
+      "graph",
+      "linked list"
+    ]
+  },
+  {
+    "sr no": 27,
+    "topic": "Linked list",
+    "question": "Why do linked lists require extra memory compared to arrays?",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "linked list",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 28,
+    "topic": "Linked list",
+    "question": "Why does quicksort perform poorly on linked lists ?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 29,
+    "topic": "Linked list",
+    "question": "Why is merge sort stable and suitable for linked lists?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list",
+      "merge sort",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 30,
+    "topic": "Linked list",
+    "question": "How would you compare Dynamic Arrays Vs Linked Lists?",
+    "difficulty": "Medium",
+    "tags": [
+      "array",
+      "comparison",
+      "dynamic array",
+      "linked list",
+      "problem solving"
+    ]
+  },
+  {
+    "sr no": 31,
+    "topic": "Hash",
+    "question": "What is a Hash Function?",
+    "difficulty": "Easy",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 32,
+    "topic": "Hash",
+    "question": "What is the time complexity of inserting and retrieving an element from a hashmap or dictionary?",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "hash",
+      "hash table",
+      "hashing",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 33,
+    "topic": "Hash",
+    "question": "What are Collisions in Hashing?",
+    "difficulty": "Medium",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing"
+    ]
+  },
+  {
+    "sr no": 34,
+    "topic": "Hash",
+    "question": "What is Open Addressing and separate chaining ?",
+    "difficulty": "Easy",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 35,
+    "topic": "Hash",
+    "question": "Why do we use hashing?",
+    "difficulty": "Medium",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 36,
+    "topic": "Hash",
+    "question": "Why does hashing give O(1) average but O(n) worst-case time?",
+    "difficulty": "Medium",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 37,
+    "topic": "Hash",
+    "question": "Why is hashing not always memory efficient?",
+    "difficulty": "Medium",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 38,
+    "topic": "Searching",
+    "question": "What is the difference between linear search and binary search?",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search",
+      "comparison",
+      "linear search",
+      "searching",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 39,
+    "topic": "Searching",
+    "question": "What is the time complexity of binary search?",
+    "difficulty": "Hard",
+    "tags": [
+      "binary search",
+      "complexity",
+      "complexity analysis",
+      "searching",
+      "theory",
+      "time complexity",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 40,
+    "topic": "Searching",
+    "question": "What is the difference between depth-first search (DFS) and breadth-first search (BFS)?",
+    "difficulty": "Easy",
+    "tags": [
+      "bfs",
+      "comparison",
+      "dfs",
+      "graph",
+      "searching",
+      "theory",
+      "traversal"
+    ]
+  },
+  {
+    "sr no": 41,
+    "topic": "Searching",
+    "question": "What are the advantages of binary search over linear search?",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search",
+      "searching",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 42,
+    "topic": "Searching",
+    "question": "How does hash-based searching work?",
+    "difficulty": "Medium",
+    "tags": [
+      "hash",
+      "hash table",
+      "hashing",
+      "searching"
+    ]
+  },
+  {
+    "sr no": 43,
+    "topic": "Searching",
+    "question": "What happens if binary search is applied on unsorted data?",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search",
+      "searching",
+      "sorting",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 44,
+    "topic": "Searching",
+    "question": "What is the difference between iterative and recursive binary search?",
+    "difficulty": "Easy",
+    "tags": [
+      "binary search",
+      "comparison",
+      "recursion",
+      "searching",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 45,
+    "topic": "Searching",
+    "question": "What is exponential search and when is it used?",
+    "difficulty": "Easy",
+    "tags": [
+      "exponential search",
+      "searching",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 46,
+    "topic": "Searching",
+    "question": "Why does binary search work only on sorted data?",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search",
+      "searching",
+      "sorting",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 47,
+    "topic": "Searching",
+    "question": "What are the limitations of binary search?",
+    "difficulty": "Medium",
+    "tags": [
+      "binary search",
+      "searching",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 48,
+    "topic": "Searching",
+    "question": "How would you find first and last occurrence of an element?",
+    "difficulty": "Medium",
+    "tags": [
+      "problem solving",
+      "searching"
+    ]
+  },
+  {
+    "sr no": 49,
+    "topic": "Searching",
+    "question": "Explain the concept of ternary search.",
+    "difficulty": "Easy",
+    "tags": [
+      "searching",
+      "ternary search",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 50,
+    "topic": "Sorting",
+    "question": "What is Bubble Sort, and when would you use it?",
+    "difficulty": "Easy",
+    "tags": [
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 51,
+    "topic": "Sorting",
+    "question": "Explain the concept of Selection Sort.",
+    "difficulty": "Easy",
+    "tags": [
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 52,
+    "topic": "Sorting",
+    "question": "What is the difference between Merge Sort and Quick Sort?",
+    "difficulty": "Easy",
+    "tags": [
+      "comparison",
+      "merge sort",
+      "quick sort",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 53,
+    "topic": "Sorting",
+    "question": "What is the time complexity of Radix Sort?",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "sorting",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 54,
+    "topic": "Sorting",
+    "question": "When is it better to use Heap Sort?",
+    "difficulty": "Medium",
+    "tags": [
+      "sorting"
+    ]
+  },
+  {
+    "sr no": 55,
+    "topic": "Sorting",
+    "question": "Explain Bucket Sort and its application.",
+    "difficulty": "Medium",
+    "tags": [
+      "bucket sort",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 56,
+    "topic": "Sorting",
+    "question": "What is pivot in Quick Sort?",
+    "difficulty": "Easy",
+    "tags": [
+      "quick sort",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 57,
+    "topic": "Sorting",
+    "question": "Why is Heap Sort rarely used in practice?",
+    "difficulty": "Medium",
+    "tags": [
+      "heap sort",
+      "sorting",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 58,
+    "topic": "Sorting",
+    "question": "What is space complexity of different sorting algorithms?",
+    "difficulty": "Hard",
+    "tags": [
+      "algorithms",
+      "complexity",
+      "complexity analysis",
+      "sorting",
+      "space complexity",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 59,
+    "topic": "String",
+    "question": "What is the difference between a character array and a string?",
+    "difficulty": "Easy",
+    "tags": [
+      "array",
+      "comparison",
+      "string",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 60,
+    "topic": "String",
+    "question": "What is the difference between a mutable and immutable string?",
+    "difficulty": "Easy",
+    "tags": [
+      "comparison",
+      "string",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 61,
+    "topic": "String",
+    "question": "What is the purpose of the Knuth-Morris-Pratt (KMP) algorithm?",
+    "difficulty": "Easy",
+    "tags": [
+      "algorithms",
+      "string",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 62,
+    "topic": "String",
+    "question": "Explain the concept of \"palindrome\" and how you would check if a string is palindrome.",
+    "difficulty": "Easy",
+    "tags": [
+      "problem solving",
+      "string",
+      "theory",
+      "traversal"
+    ]
+  },
+  {
+    "sr no": 63,
+    "topic": "String",
+    "question": "What is the time complexity of searching for a character in a string?",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "search",
+      "searching",
+      "string",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 64,
+    "topic": "String",
+    "question": "What is the difference between shallow copy and deep copy in strings?",
+    "difficulty": "Easy",
+    "tags": [
+      "comparison",
+      "string",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 65,
+    "topic": "String",
+    "question": "Why is Boyer-Moore faster in practice than KMP?",
+    "difficulty": "Medium",
+    "tags": [
+      "string",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 66,
+    "topic": "String",
+    "question": "When would you choose KMP over Rabin-Karp?",
+    "difficulty": "Medium",
+    "tags": [
+      "string"
+    ]
+  },
+  {
+    "sr no": 67,
+    "topic": "Stack",
+    "question": "What is the time complexity of inserting an element at the bottom of a stack?",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "stack",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 68,
+    "topic": "Stack",
+    "question": "What are the operations performed on a stack?",
+    "difficulty": "Medium",
+    "tags": [
+      "stack"
+    ]
+  },
+  {
+    "sr no": 69,
+    "topic": "Stack",
+    "question": "Why is a stack useful for function call management in programming languages?",
+    "difficulty": "Medium",
+    "tags": [
+      "stack",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 70,
+    "topic": "Stack",
+    "question": "What is a stack overflow?",
+    "difficulty": "Easy",
+    "tags": [
+      "stack",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 71,
+    "topic": "Stack",
+    "question": "What is a stack underflow?",
+    "difficulty": "Easy",
+    "tags": [
+      "stack",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 72,
+    "topic": "Stack",
+    "question": "How can a stack be used to check if an expression containing three types of brackets [, ( and { is balanced?",
+    "difficulty": "Medium",
+    "tags": [
+      "problem solving",
+      "stack"
+    ]
+  },
+  {
+    "sr no": 73,
+    "topic": "Stack",
+    "question": "How many queues needed to implement a stack ?",
+    "difficulty": "Medium",
+    "tags": [
+      "implementation",
+      "queue",
+      "stack"
+    ]
+  },
+  {
+    "sr no": 74,
+    "topic": "Stack",
+    "question": "What is the difference between stack and queue?",
+    "difficulty": "Easy",
+    "tags": [
+      "comparison",
+      "queue",
+      "stack",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 75,
+    "topic": "Stack",
+    "question": "What are limitations of stack?",
+    "difficulty": "Medium",
+    "tags": [
+      "stack"
+    ]
+  },
+  {
+    "sr no": 76,
+    "topic": "Queue",
+    "question": "What are the main operations of a queue?",
+    "difficulty": "Medium",
+    "tags": [
+      "queue"
+    ]
+  },
+  {
+    "sr no": 77,
+    "topic": "Queue",
+    "question": "What problem does a circular queue solve compared to a simple linear queue?",
+    "difficulty": "Medium",
+    "tags": [
+      "circular queue",
+      "queue"
+    ]
+  },
+  {
+    "sr no": 78,
+    "topic": "Queue",
+    "question": "What are the applications of a queue?",
+    "difficulty": "Medium",
+    "tags": [
+      "queue"
+    ]
+  },
+  {
+    "sr no": 79,
+    "topic": "Queue",
+    "question": "What is priority queue, and how is it different from a normal queue?",
+    "difficulty": "Easy",
+    "tags": [
+      "priority queue",
+      "queue",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 80,
+    "topic": "Queue",
+    "question": "What is a deque and how is it different from a queue?",
+    "difficulty": "Easy",
+    "tags": [
+      "deque",
+      "queue",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 81,
+    "topic": "Queue",
+    "question": "What are advantages of linked list queue?",
+    "difficulty": "Easy",
+    "tags": [
+      "linked list",
+      "queue",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 82,
+    "topic": "Queue",
+    "question": "Why is queue preferred in BFS?",
+    "difficulty": "Medium",
+    "tags": [
+      "bfs",
+      "graph",
+      "queue",
+      "theory",
+      "traversal"
+    ]
+  },
+  {
+    "sr no": 83,
+    "topic": "Recursion",
+    "question": "What are the base case and recursive case in recursion?",
+    "difficulty": "Medium",
+    "tags": [
+      "recursion"
+    ]
+  },
+  {
+    "sr no": 84,
+    "topic": "Recursion",
+    "question": "What is recursion?",
+    "difficulty": "Easy",
+    "tags": [
+      "recursion",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 85,
+    "topic": "Recursion",
+    "question": "What is Tail Recursion?",
+    "difficulty": "Easy",
+    "tags": [
+      "recursion",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 86,
+    "topic": "Recursion",
+    "question": "Why is Tail Recursion Important?",
+    "difficulty": "Medium",
+    "tags": [
+      "recursion",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 87,
+    "topic": "Recursion",
+    "question": "What is the time complexity of a recursive algorithm?",
+    "difficulty": "Hard",
+    "tags": [
+      "algorithms",
+      "complexity",
+      "complexity analysis",
+      "recursion",
+      "theory",
+      "time complexity"
+    ]
+  },
+  {
+    "sr no": 88,
+    "topic": "Backtracking",
+    "question": "What is backtracking?",
+    "difficulty": "Medium",
+    "tags": [
+      "backtracking",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 89,
+    "topic": "Backtracking",
+    "question": "How is backtracking different from dynamic programming?",
+    "difficulty": "Medium",
+    "tags": [
+      "backtracking",
+      "dp",
+      "dynamic programming"
+    ]
+  },
+  {
+    "sr no": 90,
+    "topic": "Backtracking",
+    "question": "Explain how you would solve the N-Queens problem using backtracking.",
+    "difficulty": "Medium",
+    "tags": [
+      "backtracking",
+      "dp",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 91,
+    "topic": "Backtracking",
+    "question": "Can backtracking be applied to solve the traveling salesman problem? If yes, how?",
+    "difficulty": "Medium",
+    "tags": [
+      "backtracking",
+      "greedy"
+    ]
+  },
+  {
+    "sr no": 92,
+    "topic": "Backtracking",
+    "question": "Why is backtracking not always optimal?",
+    "difficulty": "Hard",
+    "tags": [
+      "backtracking",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 93,
+    "topic": "Backtracking",
+    "question": "When should you NOT use backtracking?",
+    "difficulty": "Medium",
+    "tags": [
+      "backtracking"
+    ]
+  },
+  {
+    "sr no": 94,
+    "topic": "Backtracking",
+    "question": "Why is backtracking preferred over brute force?",
+    "difficulty": "Medium",
+    "tags": [
+      "backtracking",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 95,
+    "topic": "Tree",
+    "question": "What are the components of a tree?",
+    "difficulty": "Medium",
+    "tags": [
+      "tree"
+    ]
+  },
+  {
+    "sr no": 96,
+    "topic": "Tree",
+    "question": "What are the basic operations performed on a tree?",
+    "difficulty": "Medium",
+    "tags": [
+      "tree"
+    ]
+  },
+  {
+    "sr no": 97,
+    "topic": "Tree",
+    "question": "In a Binary Tree ,what is the maximum number of nodes at level L ?",
+    "difficulty": "Medium",
+    "tags": [
+      "binary tree",
+      "linked list",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 98,
+    "topic": "Tree",
+    "question": "Explain different types of trees ?",
+    "difficulty": "Medium",
+    "tags": [
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 99,
+    "topic": "Tree",
+    "question": "What is the difference betweeen balanced binary tree and complete binary tree",
+    "difficulty": "Medium",
+    "tags": [
+      "comparison",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 100,
+    "topic": "Tree",
+    "question": "What are the advantages and disadvantages of using trees?",
+    "difficulty": "Medium",
+    "tags": [
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 101,
+    "topic": "Tree",
+    "question": "Describe the different tree traversal methods",
+    "difficulty": "Medium",
+    "tags": [
+      "traversal",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 102,
+    "topic": "Tree",
+    "question": "What is depth of a node?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 103,
+    "topic": "Tree",
+    "question": "What is degree of a node?",
+    "difficulty": "Medium",
+    "tags": [
+      "linked list",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 104,
+    "topic": "Tree",
+    "question": "What is difference between height and depth?",
+    "difficulty": "Medium",
+    "tags": [
+      "comparison",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 105,
+    "topic": "Tree",
+    "question": "What is difference between tree height and level count?",
+    "difficulty": "Medium",
+    "tags": [
+      "comparison",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 106,
+    "topic": "Graph",
+    "question": "What are the types of graphs?",
+    "difficulty": "Medium",
+    "tags": [
+      "graph"
+    ]
+  },
+  {
+    "sr no": 107,
+    "topic": "Graph",
+    "question": "What is a cycle in a graph?",
+    "difficulty": "Medium",
+    "tags": [
+      "graph",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 108,
+    "topic": "Graph",
+    "question": "What is the adjacency matrix representation of a graph?",
+    "difficulty": "Medium",
+    "tags": [
+      "graph",
+      "matrix",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 109,
+    "topic": "Graph",
+    "question": "What is depth-first search",
+    "difficulty": "Medium",
+    "tags": [
+      "graph",
+      "search",
+      "searching",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 110,
+    "topic": "Graph",
+    "question": "What is breadth-first search",
+    "difficulty": "Medium",
+    "tags": [
+      "graph",
+      "search",
+      "searching",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 111,
+    "topic": "Graph",
+    "question": "What is the time complexity of DFS and BFS",
+    "difficulty": "Hard",
+    "tags": [
+      "complexity",
+      "complexity analysis",
+      "graph",
+      "theory",
+      "time complexity",
+      "traversal"
+    ]
+  },
+  {
+    "sr no": 112,
+    "topic": "Graph",
+    "question": "What is a spanning tree of a graph?",
+    "difficulty": "Medium",
+    "tags": [
+      "graph",
+      "theory",
+      "tree"
+    ]
+  },
+  {
+    "sr no": 113,
+    "topic": "Graph",
+    "question": "What is Kruskal’s algorithm?",
+    "difficulty": "Medium",
+    "tags": [
+      "algorithm",
+      "algorithms",
+      "graph",
+      "greedy",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 114,
+    "topic": "Graph",
+    "question": "What is Prim’s algorithm?",
+    "difficulty": "Medium",
+    "tags": [
+      "algorithm",
+      "algorithms",
+      "graph",
+      "greedy",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 115,
+    "topic": "DP",
+    "question": "What is Dynamic Programming?",
+    "difficulty": "Medium",
+    "tags": [
+      "dp",
+      "dynamic programming",
+      "theory"
+    ]
+  },
+  {
+    "sr no": 116,
+    "topic": "DP",
+    "question": "What is 0/1 knapsack problem?",
+    "difficulty": "Medium",
+    "tags": [
+      "dp",
+      "dynamic programming",
+      "theory"
+    ]
+  }
+]

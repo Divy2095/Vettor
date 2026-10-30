@@ -1,0 +1,65 @@
+📋 HOW TO USE THIS FOLDER
+═════════════════════════
+
+1. PLACE YOUR RESUME HERE
+   - Add any PDF file to this folder
+   - Name doesn't matter: resume.pdf, my_cv.pdf, etc.
+   - The system will automatically find it
+
+2. RUN THE ANALYSIS
+   From the project root directory:
+   
+   python ML_Preprocessor_scripts/tests/tests_extraction.py
+
+3. GET YOUR RESULTS
+   - The script will extract skills from your resume
+   - Find 30 most relevant interview questions
+   - Display them grouped by topic & difficulty
+
+4. ADVANCED: SKILL MAPPING
+   To see which skills match which questions:
+   
+   python ML_Preprocessor_scripts/analyze_skill_mapping.py
+
+═════════════════════════
+
+📁 FOLDER STRUCTURE:
+
+Resume_based_AI_Interview_Question_Finder/
+├── ML_Preprocessor_scripts/
+│   ├── user_resumes/              ← 👈 PUT YOUR RESUME HERE
+│   ├── tests/
+│   ├── data/
+│   ├── pipeline/
+│   └── ...
+└── QUICK_START.md
+
+═════════════════════════
+
+❓ TROUBLESHOOTING:
+
+Q: Script says "Fallback: Using test resume from tests folder"
+A: No PDF found in user_resumes/
+   → Add your resume PDF to this folder
+
+Q: My resume.pdf is here but not found?
+A: Make sure file extension is .pdf (lowercase)
+   Example: resume.pdf ✅
+           resume.PDF ❌
+
+Q: Can I put the resume elsewhere?
+A: Not recommended, but the code can be modified
+   The system looks in this folder by default
+
+═════════════════════════
+
+✅ VALID EXAMPLES:
+   my_resume.pdf
+   john_doe.pdf
+   CV.pdf
+   resume_2024.pdf
+   application.pdf
+
+═════════════════════════
+
+Need help? See QUICK_START.md or MODEL_ARCHITECTURE.md

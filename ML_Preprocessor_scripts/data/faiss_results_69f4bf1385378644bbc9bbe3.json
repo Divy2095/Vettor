@@ -1,0 +1,462 @@
+{
+  "sessionId": "69f819b88bb97340187d9239",
+  "userId": "69f4bf1385378644bbc9bbe3",
+  "createdAt": "2026-05-04T03:59:52.377Z",
+  "processingTimeMs": 4612,
+  "profile": {
+    "rawSkills": [
+      "r",
+      "data analysis",
+      "c",
+      "excel",
+      "data structures",
+      "deep learning",
+      "python",
+      "pytorch",
+      "algorithms",
+      "tableau",
+      "computer vision",
+      "machine learning",
+      "tensorflow"
+    ],
+    "expandedSkills": [
+      "data analysis",
+      "hashing",
+      "bias variance",
+      "deep learning",
+      "OOP",
+      "graphs",
+      "convolutional neural networks",
+      "image processing",
+      "queues",
+      "stacks",
+      "neural networks",
+      "list comprehension",
+      "tableau",
+      "tensorflow",
+      "r",
+      "excel",
+      "feature engineering",
+      "sorting",
+      "unsupervised learning",
+      "keras",
+      "model training",
+      "overfitting",
+      "dynamic programming",
+      "time complexity",
+      "python",
+      "pytorch",
+      "tensors",
+      "searching",
+      "linked lists",
+      "space complexity",
+      "trees",
+      "arrays",
+      "object detection",
+      "supervised learning",
+      "gradient descent",
+      "computation graphs",
+      "c",
+      "scripting",
+      "autograd",
+      "data structures",
+      "recursion",
+      "algorithms",
+      "backpropagation",
+      "opencv",
+      "computer vision",
+      "activation functions",
+      "machine learning"
+    ],
+    "sectionsFound": [
+      "header",
+      "summary",
+      "skills",
+      "experience",
+      "education",
+      "projects"
+    ]
+  },
+  "questions": [
+    {
+      "sr_no": 45,
+      "topic": "Searching",
+      "question": "What is exponential search and when is it used?",
+      "difficulty": "Easy",
+      "tags": [
+        "exponential search",
+        "searching",
+        "theory"
+      ],
+      "score": 0.203,
+      "tag_score": 0.333,
+      "final_score": 0.242,
+      "_id": "69f819b88bb97340187d923a"
+    },
+    {
+      "sr_no": 115,
+      "topic": "DP",
+      "question": "What is Dynamic Programming?",
+      "difficulty": "Medium",
+      "tags": [
+        "dp",
+        "dynamic programming",
+        "theory"
+      ],
+      "score": 0.1986,
+      "tag_score": 0.333,
+      "final_score": 0.2389,
+      "_id": "69f819b88bb97340187d923b"
+    },
+    {
+      "sr_no": 2,
+      "topic": "Software Basics",
+      "question": "What are the Various Categories of Software?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.3256,
+      "tag_score": 0,
+      "final_score": 0.2279,
+      "_id": "69f819b88bb97340187d923c"
+    },
+    {
+      "sr_no": 109,
+      "topic": "Graph",
+      "question": "What is depth-first search",
+      "difficulty": "Medium",
+      "tags": [
+        "graph",
+        "search",
+        "searching",
+        "theory"
+      ],
+      "score": 0.2092,
+      "tag_score": 0.25,
+      "final_score": 0.2214,
+      "_id": "69f819b88bb97340187d923d"
+    },
+    {
+      "sr_no": 47,
+      "topic": "Searching",
+      "question": "What are the limitations of binary search?",
+      "difficulty": "Medium",
+      "tags": [
+        "binary search",
+        "searching",
+        "tree"
+      ],
+      "score": 0.1693,
+      "tag_score": 0.333,
+      "final_score": 0.2184,
+      "_id": "69f819b88bb97340187d923e"
+    },
+    {
+      "sr_no": 113,
+      "topic": "Graph",
+      "question": "What is Kruskal’s algorithm?",
+      "difficulty": "Medium",
+      "tags": [
+        "algorithm",
+        "algorithms",
+        "graph",
+        "greedy",
+        "theory"
+      ],
+      "score": 0.2103,
+      "tag_score": 0.2,
+      "final_score": 0.2072,
+      "_id": "69f819b88bb97340187d923f"
+    },
+    {
+      "sr_no": 22,
+      "topic": "General SE",
+      "question": "What is Software Re-engineering?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2452,
+      "tag_score": 0,
+      "final_score": 0.1716,
+      "_id": "69f819b88bb97340187d9240"
+    },
+    {
+      "sr_no": 10,
+      "topic": "General SE",
+      "question": "What is a Feasibility Study?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2442,
+      "tag_score": 0,
+      "final_score": 0.1709,
+      "_id": "69f819b88bb97340187d9241"
+    },
+    {
+      "sr_no": 36,
+      "topic": "General SE",
+      "question": "What is class diagram?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2441,
+      "tag_score": 0,
+      "final_score": 0.1709,
+      "_id": "69f819b88bb97340187d9242"
+    },
+    {
+      "sr_no": 23,
+      "topic": "General SE",
+      "question": "What is Reverse Engineering?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2419,
+      "tag_score": 0,
+      "final_score": 0.1693,
+      "_id": "69f819b88bb97340187d9243"
+    },
+    {
+      "sr_no": 1,
+      "topic": "Software Basics",
+      "question": "What are the Characteristics of Software?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2262,
+      "tag_score": 0,
+      "final_score": 0.1583,
+      "_id": "69f819b88bb97340187d9244"
+    },
+    {
+      "sr_no": 35,
+      "topic": "Requirements Engineering",
+      "question": "What is requirement validation process?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2232,
+      "tag_score": 0,
+      "final_score": 0.1562,
+      "_id": "69f819b88bb97340187d9245"
+    },
+    {
+      "sr_no": 32,
+      "topic": "General SE",
+      "question": "What is data dictionary?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2209,
+      "tag_score": 0,
+      "final_score": 0.1546,
+      "_id": "69f819b88bb97340187d9246"
+    },
+    {
+      "sr_no": 61,
+      "topic": "Web Development",
+      "question": "What are \"Web Vitals\" (LCP, FID, CLS) and why does Google use them for ranking?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2171,
+      "tag_score": 0,
+      "final_score": 0.152,
+      "_id": "69f819b88bb97340187d9247"
+    },
+    {
+      "sr_no": 24,
+      "topic": "General SE",
+      "question": "What are Software Project Estimation Techniques Available?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2137,
+      "tag_score": 0,
+      "final_score": 0.1496,
+      "_id": "69f819b88bb97340187d9248"
+    },
+    {
+      "sr_no": 6,
+      "topic": "Software Testing",
+      "question": "What is Black Box Testing?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2051,
+      "tag_score": 0,
+      "final_score": 0.1436,
+      "_id": "69f819b88bb97340187d9249"
+    },
+    {
+      "sr_no": 6,
+      "topic": "CPU Scheduling",
+      "question": "What are the different scheduling algorithms",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.2042,
+      "tag_score": 0,
+      "final_score": 0.1429,
+      "_id": "69f819b88bb97340187d924a"
+    },
+    {
+      "sr_no": 41,
+      "topic": "Web Development",
+      "question": "Define \"Progressive Web Apps\" (PWAs) and their core features like Service Workers.",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1984,
+      "tag_score": 0,
+      "final_score": 0.1389,
+      "_id": "69f819b88bb97340187d924b"
+    },
+    {
+      "sr_no": 39,
+      "topic": "General SE",
+      "question": "What is component diagram?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1945,
+      "tag_score": 0,
+      "final_score": 0.1361,
+      "_id": "69f819b88bb97340187d924c"
+    },
+    {
+      "sr_no": 70,
+      "topic": "Web Development",
+      "question": "Explain \"Database Indexing\" and how it improves query performance.",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1918,
+      "tag_score": 0,
+      "final_score": 0.1343,
+      "_id": "69f819b88bb97340187d924d"
+    },
+    {
+      "sr_no": 11,
+      "topic": "General SE",
+      "question": "What is a Use Case Diagram?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1881,
+      "tag_score": 0,
+      "final_score": 0.1317,
+      "_id": "69f819b88bb97340187d924e"
+    },
+    {
+      "sr_no": 62,
+      "topic": "Web Development",
+      "question": "What is \"Database Normalization\" and what are the 1NF, 2NF, and 3NF rules?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1877,
+      "tag_score": 0,
+      "final_score": 0.1314,
+      "_id": "69f819b88bb97340187d924f"
+    },
+    {
+      "sr_no": 86,
+      "topic": "Web Development",
+      "question": "Explain the \"Flux\" architecture and how it differs from traditional MVC.",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1846,
+      "tag_score": 0,
+      "final_score": 0.1292,
+      "_id": "69f819b88bb97340187d9250"
+    },
+    {
+      "sr_no": 108,
+      "topic": "Graph",
+      "question": "What is the adjacency matrix representation of a graph?",
+      "difficulty": "Medium",
+      "tags": [
+        "graph",
+        "matrix",
+        "theory"
+      ],
+      "score": 0.1816,
+      "tag_score": 0,
+      "final_score": 0.1271,
+      "_id": "69f819b88bb97340187d9251"
+    },
+    {
+      "sr_no": 33,
+      "topic": "Software Design",
+      "question": "What is ER diagram in system design?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1808,
+      "tag_score": 0,
+      "final_score": 0.1266,
+      "_id": "69f819b88bb97340187d9252"
+    },
+    {
+      "sr_no": 40,
+      "topic": "General SE",
+      "question": "What is deployment diagram?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1806,
+      "tag_score": 0,
+      "final_score": 0.1264,
+      "_id": "69f819b88bb97340187d9253"
+    },
+    {
+      "sr_no": 106,
+      "topic": "Graph",
+      "question": "What are the types of graphs?",
+      "difficulty": "Medium",
+      "tags": [
+        "graph"
+      ],
+      "score": 0.1772,
+      "tag_score": 0,
+      "final_score": 0.124,
+      "_id": "69f819b88bb97340187d9254"
+    },
+    {
+      "sr_no": 97,
+      "topic": "Web Development",
+      "question": "What is the \"Main Thread\" in a browser and how do \"Web Workers\" help offload it?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1765,
+      "tag_score": 0,
+      "final_score": 0.1235,
+      "_id": "69f819b88bb97340187d9255"
+    },
+    {
+      "sr_no": 20,
+      "topic": "General SE",
+      "question": "What are CASE Tools?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1721,
+      "tag_score": 0,
+      "final_score": 0.1205,
+      "_id": "69f819b88bb97340187d9256"
+    },
+    {
+      "sr_no": 37,
+      "topic": "General SE",
+      "question": "What is sequence diagram?",
+      "difficulty": "Unknown",
+      "tags": [],
+      "score": 0.1697,
+      "tag_score": 0,
+      "final_score": 0.1188,
+      "_id": "69f819b88bb97340187d9257"
+    }
+  ],
+  "summary": {
+    "totalQuestions": 30,
+    "byTopic": {
+      "Searching": 2,
+      "DP": 1,
+      "Software Basics": 2,
+      "Graph": 4,
+      "General SE": 11,
+      "Requirements Engineering": 1,
+      "Web Development": 6,
+      "Software Testing": 1,
+      "CPU Scheduling": 1,
+      "Software Design": 1
+    },
+    "byDifficulty": {
+      "Easy": 1,
+      "Medium": 6,
+      "Hard": 0,
+      "Unknown": 23
+    }
+  }
+}

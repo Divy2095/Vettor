@@ -1,0 +1,129 @@
+version: '3.9'
+
+services:
+  # MongoDB Database
+  mongo:
+    image: mongo:7.0
+    container_name: resumeiq-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: changeme
+      MONGO_INITDB_DATABASE: resumeiq
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+    networks:
+      - resumeiq-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: resumeiq-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      MONGODB_URI: mongodb://admin:changeme@mongo:27017/resumeiq?authSource=admin
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRE: 7d
+      MAIL_HOST: smtp.gmail.com
+      MAIL_USER: ${MAIL_USER:-your-email@gmail.com}
+      MAIL_PASS: ${MAIL_PASS:-your-app-password}
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - ./server/src:/app/server/src
+      - ./server/uploads:/app/server/uploads
+      - ./ML_Preprocessor_scripts:/app/ml_pipeline
+    networks:
+      - resumeiq-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Web Server
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: resumeiq-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./client/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - resumeiq-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ML Pipeline Container (Python)
+  ml_pipeline:
+    build:
+      context: ./ML_Preprocessor_scripts
+      dockerfile: Dockerfile
+    container_name: resumeiq-ml-pipeline
+    restart: unless-stopped
+    environment:
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - ./ML_Preprocessor_scripts:/app/ml_pipeline
+      - ./server/uploads:/app/server/uploads
+    networks:
+      - resumeiq-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import spacy, sentence_transformers, faiss; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Cache (Optional but recommended for production)
+  redis:
+    image: redis:7-alpine
+    container_name: resumeiq-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - resumeiq-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    profiles:
+      - production
+
+volumes:
+  mongo_data:
+    driver: local
+  mongo_config:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  resumeiq-network:
+    driver: bridge
