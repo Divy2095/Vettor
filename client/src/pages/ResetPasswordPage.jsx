@@ -1,11 +1,13 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Lock, ArrowLeft, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -24,7 +26,7 @@ export default function ResetPasswordPage() {
     event.preventDefault();
 
     if (linkInvalid) {
-      setErrorMessage("Invalid reset link. Please request a new one.");
+      setErrorMessage("This recovery link is invalid or expired. Request a new password reset.");
       return;
     }
 
@@ -49,71 +51,144 @@ export default function ResetPasswordPage() {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || "Could not reset password");
+        throw new Error(data.message || "Failed to update password");
       }
 
-      setSuccessMessage(data.message || "Password reset successful. You can now sign in.");
+      setSuccessMessage(
+        data.message || "Password updated successfully. You can now log in."
+      );
       setPassword("");
       setConfirmPassword("");
     } catch (error) {
-      setErrorMessage(error.message || "Could not reset password");
+      setErrorMessage(error.message || "Failed to update password");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 flex items-center justify-center p-6">
-      <Card className="w-full max-w-xl">
-        <CardHeader>
-          <CardTitle className="text-2xl">Reset Password</CardTitle>
-          <CardDescription>
-            {linkInvalid
-              ? "This reset link is invalid. Please request a new password reset email."
-              : `Reset password for ${email}`}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="space-y-4" onSubmit={handleSubmit}>
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between selection:bg-accent/20">
+      <header className="px-6 py-5 flex items-center justify-between border-b border-border bg-surface-1/40">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="h-7 w-7 rounded-md bg-surface-2 border border-border flex items-center justify-center font-mono font-bold text-accent text-xs">
+            V//
+          </div>
+          <span className="font-bold tracking-tight text-sm text-foreground">
+            VETTOR
+          </span>
+        </Link>
+        <ThemeToggle />
+      </header>
+
+      <main className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-md">
+          <div className="rounded-xl border border-border bg-surface-1 p-8 shadow-xl space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium">New Password</label>
-              <Input
-                type="password"
-                placeholder="Enter new password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={isSubmitting || linkInvalid}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Confirm Password</label>
-              <Input
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                disabled={isSubmitting || linkInvalid}
-                required
-              />
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[11px] text-accent tracking-widest uppercase">
+                  CREDENTIAL RECOVERY
+                </span>
+                <Badge variant="outline" size="sm">
+                  RECOVERY
+                </Badge>
+              </div>
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                Reset Account Password
+              </h1>
+              <p className="text-xs text-muted-foreground">
+                {linkInvalid
+                  ? "Security token missing or invalid."
+                  : `Target account: ${email}`}
+              </p>
             </div>
 
-            {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
-            {successMessage && <p className="text-sm text-green-700">{successMessage}</p>}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-muted-foreground">
+                  New Password
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+                  <Input
+                    type="password"
+                    placeholder="Enter new strong password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={isSubmitting || linkInvalid}
+                    required
+                    className="pl-9 h-10 bg-surface-2 border-border text-xs font-mono"
+                  />
+                </div>
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-              <Button type="submit" disabled={isSubmitting || linkInvalid} className="w-full sm:w-auto">
-                {isSubmitting ? "Updating..." : "Update Password"}
-              </Button>
-              <Link to="/login" className="w-full sm:w-auto">
-                <Button type="button" variant="outline" className="w-full">
-                  Back to Login
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-muted-foreground">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+                  <Input
+                    type="password"
+                    placeholder="Confirm new password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    disabled={isSubmitting || linkInvalid}
+                    required
+                    className="pl-9 h-10 bg-surface-2 border-border text-xs font-mono"
+                  />
+                </div>
+              </div>
+
+              {errorMessage && (
+                <div className="p-3 rounded-md bg-rose-500/10 border border-rose-500/30 flex items-start gap-2 text-xs text-rose-400">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {successMessage && (
+                <div className="p-3 rounded-md bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-2 text-xs text-emerald-400">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{successMessage}</span>
+                </div>
+              )}
+
+              <div className="pt-2 flex flex-col gap-2">
+                <Button
+                  type="submit"
+                  disabled={isSubmitting || linkInvalid}
+                  className="w-full h-10 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    "Save New Password"
+                  )}
                 </Button>
-              </Link>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+
+                <Link to="/login" className="w-full">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="w-full text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5 mr-1.5" />
+                    Back to Sign In
+                  </Button>
+                </Link>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <footer className="py-4 border-t border-border text-center text-xs text-muted-foreground">
+        Vettor • Resume Intelligence & Technical Interview Preparation
+      </footer>
     </div>
   );
 }

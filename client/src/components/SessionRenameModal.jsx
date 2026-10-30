@@ -24,62 +24,71 @@ export default function SessionRenameModal({ session, onConfirm, onCancel }) {
     const currentName = session?.displayName || session?.sourceFileName || "";
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white dark:bg-slate-900 rounded-lg p-6 w-full max-w-sm shadow-lg border border-gray-200 dark:border-slate-700">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-surface-1 rounded-xl p-6 w-full max-w-sm shadow-2xl border border-border">
                 <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg font-semibold text-foreground">
-                        Rename Session
-                    </h2>
+                    <div>
+                        <span className="font-mono text-[10px] text-accent uppercase tracking-wider">
+                            TRACK METADATA
+                        </span>
+                        <h2 className="text-base font-bold text-foreground">
+                            Rename Session
+                        </h2>
+                    </div>
                     <button
                         onClick={onCancel}
-                        className="p-1 hover:bg-gray-100 dark:hover:bg-slate-800 rounded transition-colors"
+                        className="p-1 hover:bg-surface-2 rounded text-muted-foreground hover:text-foreground transition-colors"
                     >
-                        <X className="w-5 h-5 text-muted-foreground" />
+                        <X className="w-4 h-4" />
                     </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                            Current Name
+                        <label className="block text-xs font-mono text-muted-foreground mb-1">
+                            Current Identifier
                         </label>
-                        <p className="text-sm text-muted-foreground bg-gray-50 dark:bg-slate-800 rounded p-2 mb-4">
+                        <p className="text-xs text-foreground bg-surface-2 rounded-md p-2.5 mb-3 border border-border/60 truncate">
                             {currentName}
                         </p>
 
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                            New Name
+                        <label className="block text-xs font-mono text-muted-foreground mb-1">
+                            New Identifier
                         </label>
                         <Input
                             type="text"
                             value={newName}
                             onChange={(e) => setNewName(e.target.value)}
-                            placeholder="Enter new session name"
-                            className="h-10 bg-secondary dark:bg-slate-800"
+                            placeholder="e.g. Staff Distributed Systems Track"
+                            className="h-9 bg-surface-2 border-border text-xs font-sans"
                             autoFocus
                             disabled={isSubmitting}
                             maxLength={255}
                         />
                     </div>
 
-                    <div className="flex gap-3 justify-end">
+                    <div className="flex gap-2 justify-end pt-2">
                         <Button
                             type="button"
                             variant="outline"
+                            size="sm"
                             onClick={onCancel}
                             disabled={isSubmitting}
+                            className="text-xs font-mono"
                         >
                             Cancel
                         </Button>
                         <Button
                             type="submit"
+                            size="sm"
                             disabled={
                                 !newName.trim() ||
                                 newName === currentName ||
                                 isSubmitting
                             }
+                            className="text-xs font-mono font-medium bg-primary text-primary-foreground hover:bg-primary/90"
                         >
-                            {isSubmitting ? "Saving..." : "Save"}
+                            {isSubmitting ? "Saving..." : "Save Changes"}
                         </Button>
                     </div>
                 </form>

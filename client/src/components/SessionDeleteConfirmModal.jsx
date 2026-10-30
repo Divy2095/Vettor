@@ -22,59 +22,61 @@ export default function SessionDeleteConfirmModal({
         session?.displayName || session?.sourceFileName || "This session";
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white dark:bg-slate-900 rounded-lg p-6 w-full max-w-sm shadow-lg border border-gray-200 dark:border-slate-700">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-surface-1 rounded-xl p-6 w-full max-w-sm shadow-2xl border border-border">
                 <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-red-100 dark:bg-red-900/30 rounded-full">
-                            <AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400" />
+                    <div className="flex items-center gap-2.5">
+                        <div className="p-1.5 bg-rose-500/10 border border-rose-500/20 rounded-md">
+                            <AlertTriangle className="w-4 h-4 text-rose-400" />
                         </div>
-                        <h2 className="text-lg font-semibold text-foreground">
-                            Delete Session?
+                        <h2 className="text-base font-bold text-foreground">
+                            Delete Session Track
                         </h2>
                     </div>
                     <button
                         onClick={onCancel}
-                        className="p-1 hover:bg-gray-100 dark:hover:bg-slate-800 rounded transition-colors"
+                        className="p-1 hover:bg-surface-2 rounded text-muted-foreground hover:text-foreground transition-colors"
                     >
-                        <X className="w-5 h-5 text-muted-foreground" />
+                        <X className="w-4 h-4" />
                     </button>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 text-xs">
                     <div>
-                        <p className="text-sm text-muted-foreground mb-2">
-                            You're about to delete:
+                        <p className="text-muted-foreground mb-1 font-mono">
+                            Target Session:
                         </p>
-                        <p className="text-sm font-medium text-foreground bg-gray-50 dark:bg-slate-800 rounded p-2 break-words">
+                        <p className="font-mono text-foreground bg-surface-2 rounded p-2.5 border border-border/60 truncate">
                             {sessionName}
                         </p>
                     </div>
 
-                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-3">
-                        <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                            <strong>Warning:</strong> All practice attempts and
-                            feedback associated with this session will be
-                            permanently deleted. This action cannot be undone.
+                    <div className="bg-rose-500/10 border border-rose-500/20 rounded-lg p-3 text-rose-300">
+                        <p className="leading-relaxed">
+                            <strong>Irreversible Action:</strong> All generated challenges, candidate responses, and rubric scores will be purged.
                         </p>
                     </div>
 
-                    <div className="flex gap-3 justify-end pt-2">
+                    <div className="flex gap-2 justify-end pt-2">
                         <Button
                             type="button"
                             variant="outline"
+                            size="sm"
                             onClick={onCancel}
                             disabled={isSubmitting}
+                            className="text-xs font-mono"
                         >
                             Cancel
                         </Button>
                         <Button
                             type="button"
                             variant="destructive"
+                            size="sm"
                             onClick={handleConfirm}
                             disabled={isSubmitting}
+                            className="text-xs font-mono"
                         >
-                            {isSubmitting ? "Deleting..." : "Delete"}
+                            {isSubmitting ? "Purging..." : "Delete Permanently"}
                         </Button>
                     </div>
                 </div>

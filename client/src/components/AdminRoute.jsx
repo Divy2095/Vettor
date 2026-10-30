@@ -19,7 +19,7 @@ export default function AdminRoute({ children }) {
       try {
         const user = rawUser ? JSON.parse(rawUser) : null;
         setStatus(user?.role === "admin" ? "admin" : "user");
-      } catch (_error) {
+      } catch {
         clearAuthSession();
         setStatus("unauthorized");
       }

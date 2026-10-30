@@ -1,52 +1,67 @@
+const prefersReducedMotion =
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 export const viewportSettings = {
-  once: false,
-  amount: 0.35,
-  margin: "0px 0px -12% 0px",
+  once: true,
+  amount: 0.2,
 };
 
-export const fadeUp = {
-  hidden: { opacity: 0, y: 70, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.75,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
+export const fadeUp = prefersReducedMotion
+  ? {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1, transition: { duration: 0.15 } },
+    }
+  : {
+      hidden: { opacity: 0, y: 16 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 0.35,
+          ease: [0.16, 1, 0.3, 1],
+        },
+      },
+    };
 
 export const fadeIn = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.25,
+      ease: "easeOut",
     },
   },
 };
 
-export const staggerContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.16,
-      delayChildren: 0.08,
-    },
-  },
-};
+export const staggerContainer = prefersReducedMotion
+  ? { hidden: {}, visible: {} }
+  : {
+      hidden: {},
+      visible: {
+        transition: {
+          staggerChildren: 0.06,
+          delayChildren: 0.02,
+        },
+      },
+    };
 
-export const getFadeUpWithDelay = (delay = 0) => ({
-  hidden: { opacity: 0, y: 48 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.7,
-      delay,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-});
+export const getFadeUpWithDelay = (delay = 0) =>
+  prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 0.15 } },
+      }
+    : {
+        hidden: { opacity: 0, y: 14 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.35,
+            delay,
+            ease: [0.16, 1, 0.3, 1],
+          },
+        },
+      };

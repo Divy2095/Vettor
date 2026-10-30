@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { BrainCircuit } from "lucide-react";
+import {
+  Lock,
+  Mail,
+  User,
+  Clock,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import ThemeToggle from "@/components/ThemeToggle";
-import { fadeUp, getFadeUpWithDelay } from "@/lib/motion";
+import { fadeUp } from "@/lib/motion";
 import { clearAuthSession, ensureSession, setAuthSession } from "@/lib/auth";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 export default function AuthPage({ type = "login" }) {
   const isLogin = type === "login";
@@ -32,8 +41,10 @@ export default function AuthPage({ type = "login" }) {
       try {
         const storedUser = localStorage.getItem("authUser");
         const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-        navigate(parsedUser?.role === "admin" ? "/admin" : "/dashboard", { replace: true });
-      } catch (_error) {
+        navigate(parsedUser?.role === "admin" ? "/admin" : "/dashboard", {
+          replace: true,
+        });
+      } catch {
         clearAuthSession();
       }
     };
@@ -95,10 +106,12 @@ export default function AuthPage({ type = "login" }) {
           password: form.password,
         });
 
-        setSuccessMessage(data.message || "Account created. You can sign in now.");
+        setSuccessMessage(
+          data.message || "Account registered. You may now sign in."
+        );
       }
     } catch (error) {
-      setErrorMessage(error.message || "Something went wrong");
+      setErrorMessage(error.message || "Authentication failed");
     } finally {
       setIsSubmitting(false);
     }
@@ -106,7 +119,7 @@ export default function AuthPage({ type = "login" }) {
 
   const handleForgotPassword = async () => {
     if (!form.email.trim()) {
-      setErrorMessage("Enter your email first, then click Forgot password.");
+      setErrorMessage("Enter your email address first, then click Forgot Password.");
       return;
     }
 
@@ -118,149 +131,209 @@ export default function AuthPage({ type = "login" }) {
       const data = await callApi("/auth/forgot-password", {
         email: form.email.trim(),
       });
-      setSuccessMessage(data.message || "Password reset instructions sent.");
+      setSuccessMessage(data.message || "Password recovery instructions sent.");
     } catch (error) {
-      setErrorMessage(error.message || "Could not start reset flow");
+      setErrorMessage(error.message || "Could not initiate password reset");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 flex">
-      {/* Visual Asymmetric Left Side */}
-      <motion.div
-        className="hidden lg:flex w-[60%] relative flex-col justify-between p-12 overflow-hidden items-start bg-secondary dark:bg-secondary"
-        initial="hidden"
-        animate="visible"
-        variants={fadeUp}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 to-purple-500/10 pointer-events-none" />
-        <div className="absolute -left-[20%] -top-[20%] w-[140%] h-[140%] bg-primary/5 blur-[120px] rounded-full mix-blend-multiply" />
-        
-        <Link to="/" className="relative z-10 flex items-center gap-2 text-2xl font-bold tracking-tight text-secondary-foreground">
-          <BrainCircuit className="w-8 h-8 text-primary" />
-          Interview Buddy
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-between selection:bg-accent/20">
+      {/* Top Header */}
+      <header className="px-6 py-5 flex items-center justify-between border-b border-border bg-surface-1/40">
+        <Link to="/" className="flex items-center gap-2.5">
+          <div className="h-7 w-7 rounded-md bg-surface-2 border border-border flex items-center justify-center font-mono font-bold text-accent text-xs">
+            V//
+          </div>
+          <span className="font-bold tracking-tight text-sm text-foreground">
+            VETTOR
+          </span>
         </Link>
+        <ThemeToggle />
+      </header>
 
-        <div className="relative z-10 max-w-lg mb-12">
-          <h2 className="text-4xl font-bold tracking-tight mb-4">
-            Uncover your technical blind spots before the recruiter does.
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Join thousands of candidates who turned their rejections into offers. 
-            The Digital Oracle prepares you for exactly what your dream company will ask.
-          </p>
-        </div>
-      </motion.div>
+      {/* Main Container */}
+      <main className="flex-1 flex items-center justify-center p-6">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="w-full max-w-md space-y-6"
+        >
+          {/* Card Box */}
+          <div className="rounded-xl border border-border bg-surface-1 p-8 shadow-xl">
+            <div className="space-y-2 mb-6">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[11px] text-accent tracking-widest uppercase">
+                  {isLogin ? "WORKSPACE ACCESS" : "NEW REGISTRATION"}
+                </span>
+                <Badge variant="outline" size="sm">
+                  ACCOUNT
+                </Badge>
+              </div>
+              <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                {isLogin ? "Sign in to Vettor" : "Create candidate profile"}
+              </h1>
+              <p className="text-xs text-muted-foreground">
+                {isLogin
+                  ? "Enter your credentials to access your interview workspace."
+                  : "Register to analyze resumes and practice technical challenges."}
+              </p>
+            </div>
 
-      {/* Auth Form Right Side */}
-      <motion.div
-        className="w-full lg:w-[40%] flex items-center justify-center p-8 bg-white dark:bg-slate-900 relative"
-        initial="hidden"
-        animate="visible"
-        variants={getFadeUpWithDelay(0.12)}
-      >
-        <div className="w-full max-w-md relative space-y-6">
-          <div className="absolute -top-16 right-0">
-            <ThemeToggle />
-          </div>
-          <div className="text-center space-y-2">
-            <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
-              {isLogin ? "Welcome back" : "Create an account"}
-            </h1>
-            <p className="text-base mt-2 text-muted-foreground">
-              {isLogin ? "Enter your credentials to access your dashboard." : "Enter your details to generate your first set of questions."}
-            </p>
-          </div>
-          <div className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               {!isLogin && (
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Full Name</label>
+                <div className="space-y-1.5">
+                  <label className="text-xs text-muted-foreground font-medium">
+                    Full Name
+                  </label>
+                  <div className="relative">
+                    <User className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+                    <Input
+                      type="text"
+                      placeholder="Jane Doe"
+                      required
+                      className="pl-9 h-10 bg-surface-2 border-border text-xs"
+                      value={form.fullName}
+                      onChange={updateField("fullName")}
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-1.5">
+                <label className="text-xs text-muted-foreground font-medium">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
                   <Input
-                    type="text"
-                    placeholder="Enter your name"
+                    type="email"
+                    placeholder="name@example.com"
                     required
-                    className="h-12 bg-secondary dark:bg-slate-800"
-                    value={form.fullName}
-                    onChange={updateField("fullName")}
+                    className="pl-9 h-10 bg-surface-2 border-border text-xs"
+                    value={form.email}
+                    onChange={updateField("email")}
                     disabled={isSubmitting}
                   />
                 </div>
-              )}
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Email</label>
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  required
-                  className="h-12 bg-secondary dark:bg-slate-800"
-                  value={form.email}
-                  onChange={updateField("email")}
-                  disabled={isSubmitting}
-                />
               </div>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <label className="text-sm font-medium text-foreground">Password</label>
+
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs text-muted-foreground font-medium">
+                    Password
+                  </label>
                   {isLogin && (
                     <button
                       type="button"
-                      className="text-xs text-primary hover:underline"
                       onClick={handleForgotPassword}
                       disabled={isSubmitting}
+                      className="text-xs text-accent hover:underline"
                     >
-                      Forgot password?
+                      Forgot?
                     </button>
                   )}
                 </div>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  required
-                  className="h-12 bg-secondary dark:bg-slate-800"
-                  value={form.password}
-                  onChange={updateField("password")}
-                  disabled={isSubmitting}
-                />
+                <div className="relative">
+                  <Lock className="w-4 h-4 text-muted-foreground absolute left-3 top-3" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••"
+                    required
+                    className="pl-9 h-10 bg-surface-2 border-border text-xs font-mono"
+                    value={form.password}
+                    onChange={updateField("password")}
+                    disabled={isSubmitting}
+                  />
+                </div>
               </div>
+
               {isLogin && (
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Remember me</label>
+                <div className="space-y-1.5 pt-1">
+                  <label className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
+                    <Clock className="w-3.5 h-3.5" /> Session Duration
+                  </label>
                   <select
-                    className="h-12 w-full rounded-md border border-input bg-secondary px-3 text-sm dark:bg-slate-800"
+                    className="h-9 w-full rounded-md border border-border bg-surface-2 px-3 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
                     value={form.sessionDays}
                     onChange={updateField("sessionDays")}
                     disabled={isSubmitting}
                   >
-                    <option value="1">1 day</option>
-                    <option value="7">7 days</option>
-                    <option value="30">30 days</option>
+                    <option value="1">1 Day</option>
+                    <option value="7">7 Days</option>
+                    <option value="30">30 Days</option>
                   </select>
                 </div>
               )}
-              {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
-              {successMessage && <p className="text-sm text-green-700">{successMessage}</p>}
+
+              {/* Feedback banners */}
+              {errorMessage && (
+                <div className="p-3 rounded-md bg-rose-500/10 border border-rose-500/30 flex items-start gap-2 text-xs text-rose-400">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {successMessage && (
+                <div className="p-3 rounded-md bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-2 text-xs text-emerald-400">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{successMessage}</span>
+                </div>
+              )}
+
               <Button
                 type="submit"
-                className="w-full h-12 mt-6 text-base tracking-wide rounded-lg"
+                className="w-full h-10 mt-2 text-xs font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Please wait..." : isLogin ? "Sign In" : "Sign Up"}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Authenticating...
+                  </>
+                ) : isLogin ? (
+                  "Sign In to Workspace"
+                ) : (
+                  "Create Account"
+                )}
               </Button>
             </form>
 
-            <div className="mt-8 text-center text-sm text-muted-foreground">
-              {isLogin ? "Don't have an account? " : "Already have an account? "}
-              <Link to={isLogin ? "/signup" : "/login"} className="text-primary font-medium hover:underline">
-                {isLogin ? "Sign up" : "Sign in"}
-              </Link>
+            <div className="mt-6 pt-5 border-t border-border text-center text-xs text-muted-foreground">
+              {isLogin ? (
+                <>
+                  New to Vettor?{" "}
+                  <Link
+                    to="/signup"
+                    className="text-accent font-medium hover:underline ml-1"
+                  >
+                    Create an account
+                  </Link>
+                </>
+              ) : (
+                <>
+                  Already registered?{" "}
+                  <Link
+                    to="/login"
+                    className="text-accent font-medium hover:underline ml-1"
+                  >
+                    Sign in here
+                  </Link>
+                </>
+              )}
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-4 border-t border-border text-center text-xs text-muted-foreground">
+        Vettor • Resume Intelligence & Technical Interview Preparation
+      </footer>
     </div>
   );
 }
-

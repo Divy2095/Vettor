@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Copy, RefreshCw, X } from "lucide-react";
+import { Copy, RefreshCw, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function DuplicateSessionModal({
     session,
@@ -39,88 +39,91 @@ export default function DuplicateSessionModal({
     ].filter(Boolean);
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/55 px-4 backdrop-blur-sm">
-            <Card className="w-full max-w-lg border-border/70 bg-white/95 shadow-2xl dark:border-slate-800 dark:bg-slate-950/95">
-                <CardContent className="p-6">
-                    <div className="flex items-start justify-between gap-4">
-                        <div className="flex items-start gap-3">
-                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                                <Copy className="h-5 w-5" />
-                            </div>
-                            <div>
-                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
-                                    Matching session found
-                                </p>
-                                <h2 className="mt-1 text-xl font-semibold text-foreground">
-                                    Reuse the existing track?
-                                </h2>
-                                <p className="mt-2 text-sm text-muted-foreground">
-                                    We found a session with the same resume and
-                                    target setup. Reusing it will continue from
-                                    where you left off.
-                                </p>
-                            </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 px-4 backdrop-blur-sm">
+            <div className="w-full max-w-lg border border-border bg-surface-1 rounded-xl shadow-2xl p-6">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface-2 border border-border text-accent">
+                            <Copy className="h-5 w-5" />
                         </div>
-                        <button
-                            type="button"
-                            onClick={onCancel}
-                            className="rounded-full p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground"
-                        >
-                            <X className="h-5 w-5" />
-                        </button>
+                        <div>
+                            <span className="font-mono text-[10px] uppercase tracking-wider text-accent font-semibold">
+                                DUPLICATE PROFILE DETECTED
+                            </span>
+                            <h2 className="mt-0.5 text-lg font-bold text-foreground">
+                                Active Track Exists
+                            </h2>
+                            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
+                                A session matching this resume context already has indexed challenges and evaluation telemetry.
+                            </p>
+                        </div>
                     </div>
+                    <button
+                        type="button"
+                        onClick={onCancel}
+                        className="rounded p-1 text-muted-foreground hover:bg-surface-2 hover:text-foreground transition-colors"
+                    >
+                        <X className="h-4 w-4" />
+                    </button>
+                </div>
 
-                    <div className="mt-5 rounded-2xl border border-border/70 bg-muted/40 p-4">
-                        <p className="text-sm font-semibold text-foreground">
+                <div className="mt-4 rounded-lg border border-border bg-surface-2/60 p-3.5 space-y-1.5 font-mono text-xs">
+                    <div className="flex items-center justify-between">
+                        <span className="font-semibold text-foreground truncate">
                             {sessionName}
-                        </p>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            {contextParts.length > 0
-                                ? contextParts.join(" • ")
-                                : "No target context saved"}
-                        </p>
-                        <p className="mt-2 text-xs text-muted-foreground">
-                            Last accessed{" "}
-                            {session?.lastAccessedAt
-                                ? new Date(
-                                      session.lastAccessedAt,
-                                  ).toLocaleString()
-                                : "recently"}
-                        </p>
+                        </span>
+                        <Badge variant="outline" size="sm">
+                            EXISTING
+                        </Badge>
                     </div>
+                    <p className="text-muted-foreground">
+                        {contextParts.length > 0
+                            ? contextParts.join(" • ")
+                            : "Standard Target Track"}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground pt-1 border-t border-border/40">
+                        Last active:{" "}
+                        {session?.lastAccessedAt
+                            ? new Date(session.lastAccessedAt).toLocaleString()
+                            : "Recently"}
+                    </p>
+                </div>
 
-                    <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={onCancel}
-                            disabled={isSubmitting}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={handleReuse}
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? "Opening..." : "Reuse session"}
-                        </Button>
-                    </div>
-
+                <div className="mt-5 flex flex-col sm:flex-row gap-2.5">
                     <Button
                         type="button"
-                        className="mt-3 w-full"
+                        variant="outline"
+                        size="sm"
+                        onClick={onCancel}
+                        disabled={isSubmitting}
+                        className="flex-1 text-xs font-mono"
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        type="button"
+                        size="sm"
+                        onClick={handleReuse}
+                        disabled={isSubmitting}
+                        className="flex-1 text-xs font-mono font-medium bg-primary text-primary-foreground hover:bg-primary/90"
+                    >
+                        {isSubmitting ? "Switching..." : "Resume Track"}
+                        <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    </Button>
+                </div>
+
+                <div className="mt-3 pt-3 border-t border-border text-center">
+                    <button
+                        type="button"
+                        className="text-xs font-mono text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5"
                         onClick={handleCreateNew}
                         disabled={isSubmitting}
                     >
-                        <RefreshCw className="mr-2 h-4 w-4" />
-                        {isSubmitting
-                            ? "Creating..."
-                            : "Create a new session anyway"}
-                    </Button>
-                </CardContent>
-            </Card>
+                        <RefreshCw className="w-3 h-3" />
+                        <span>Force generate new independent session</span>
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }

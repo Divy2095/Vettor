@@ -1,12 +1,23 @@
-import { useState, useRef } from 'react';
-import { Upload, Loader2, CheckCircle, AlertCircle, Download } from 'lucide-react';
+import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
+import {
+  UploadCloud,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  Download,
+  ArrowLeft,
+  FileCheck2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export default function ResumeUploadCard() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState(null);
-  const [status, setStatus] = useState('idle'); // idle, uploading, processing, completed, error
-  const [errorMsg, setErrorMsg] = useState('');
+  const [status, setStatus] = useState("idle"); // idle, uploading, processing, completed, error
+  const [errorMsg, setErrorMsg] = useState("");
   const [processingTime, setProcessingTime] = useState(0);
   const [questionsCount, setQuestionsCount] = useState(0);
   const fileInputRef = useRef(null);
@@ -15,46 +26,42 @@ export default function ResumeUploadCard() {
     const selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
 
-    // Validate file type
-    if (selectedFile.type !== 'application/pdf') {
-      setErrorMsg('Please upload a PDF file');
+    if (selectedFile.type !== "application/pdf") {
+      setErrorMsg("Please upload a PDF file");
       return;
     }
 
-    // Validate file size (5MB max)
     if (selectedFile.size > 5 * 1024 * 1024) {
-      setErrorMsg('File size must be less than 5MB');
+      setErrorMsg("File size must be less than 5MB");
       return;
     }
 
     setFile(selectedFile);
-    setErrorMsg('');
-    setStatus('idle');
+    setErrorMsg("");
+    setStatus("idle");
   };
 
   const handleUpload = async () => {
     if (!file) {
-      setErrorMsg('Please select a file');
+      setErrorMsg("Please select a file");
       return;
     }
 
     setLoading(true);
-    setStatus('uploading');
-    setErrorMsg('');
+    setStatus("uploading");
+    setErrorMsg("");
 
     try {
-      // Get auth token
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem("accessToken") || localStorage.getItem("authToken");
       if (!token) {
-        throw new Error('Not authenticated. Please login first.');
+        throw new Error("Authentication required. Please sign in.");
       }
 
-      // Upload resume
       const formData = new FormData();
-      formData.append('resume', file);
+      formData.append("resume", file);
 
-      const uploadResponse = await fetch('/api/resume/upload', {
-        method: 'POST',
+      const uploadResponse = await fetch("/api/resume/upload", {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,19 +69,18 @@ export default function ResumeUploadCard() {
       });
 
       if (!uploadResponse.ok) {
-        const error = await uploadResponse.json();
-        throw new Error(error.message || 'Upload failed');
+        const error = await uploadResponse.json().catch(() => ({}));
+        throw new Error(error.message || "Upload failed");
       }
 
       const uploadData = await uploadResponse.json();
       setSessionId(uploadData.sessionId);
-      setStatus('processing');
+      setStatus("processing");
 
-      // Poll for status
       pollProcessingStatus(uploadData.sessionId, token);
     } catch (error) {
       setErrorMsg(error.message);
-      setStatus('error');
+      setStatus("error");
       setLoading(false);
     }
   };
@@ -84,8 +90,8 @@ export default function ResumeUploadCard() {
 
     const poll = async () => {
       if (attempts >= maxAttempts) {
-        setErrorMsg('Processing timeout. Please try again.');
-        setStatus('error');
+        setErrorMsg("Processing timeout. Please try again.");
+        setStatus("error");
         setLoading(false);
         return;
       }
@@ -98,28 +104,27 @@ export default function ResumeUploadCard() {
         });
 
         if (!statusResponse.ok) {
-          throw new Error('Failed to fetch status');
+          throw new Error("Failed to fetch status");
         }
 
         const statusData = await statusResponse.json();
 
-        if (statusData.status === 'completed') {
+        if (statusData.status === "completed") {
           setQuestionsCount(statusData.totalQuestions);
           setProcessingTime(statusData.processingTime);
-          setStatus('completed');
+          setStatus("completed");
           setLoading(false);
-        } else if (statusData.status === 'failed') {
+        } else if (statusData.status === "failed") {
           setErrorMsg(statusData.errorMessage);
-          setStatus('error');
+          setStatus("error");
           setLoading(false);
         } else {
-          // Still processing
           attempts++;
-          setTimeout(poll, 2000); // Check every 2 seconds
+          setTimeout(poll, 2000);
         }
       } catch (error) {
-        setErrorMsg('Error checking status: ' + error.message);
-        setStatus('error');
+        setErrorMsg("Error checking status: " + error.message);
+        setStatus("error");
         setLoading(false);
       }
     };
@@ -127,221 +132,211 @@ export default function ResumeUploadCard() {
     poll();
   };
 
-  const handleViewQuestions = () => {
-    if (sessionId) {
-      // Navigate to questions page
-      window.location.href = `/dashboard/questions/${sessionId}`;
-    }
-  };
-
   const handleDownload = async () => {
     if (!sessionId) return;
 
     try {
-      const token = localStorage.getItem('authToken');
-      if (!token) throw new Error('Not authenticated');
+      const token = localStorage.getItem("accessToken") || localStorage.getItem("authToken");
+      if (!token) throw new Error("Not authenticated");
 
-      const response = await fetch(
-        `/api/resume/questions/${sessionId}/export`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`/api/resume/questions/${sessionId}/export`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
-        throw new Error('Download failed');
+        throw new Error("Download failed");
       }
 
-      // Create blob and download
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = `interview-questions-${sessionId}.json`;
+      a.download = `vettor-questions-${sessionId}.json`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
     } catch (error) {
-      setErrorMsg('Download failed: ' + error.message);
+      setErrorMsg("Download failed: " + error.message);
     }
   };
 
   const handleReset = () => {
     setFile(null);
     setSessionId(null);
-    setStatus('idle');
-    setErrorMsg('');
+    setStatus("idle");
+    setErrorMsg("");
     setProcessingTime(0);
     setQuestionsCount(0);
     setLoading(false);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6">
-      <div className="bg-white dark:bg-slate-800 rounded-lg shadow-md p-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Upload Your Resume
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            Get personalized interview questions based on your skills and experience
-          </p>
-        </div>
+    <div className="min-h-screen bg-background text-foreground py-10 px-6 font-sans">
+      <div className="max-w-2xl mx-auto space-y-6">
+        <Link
+          to="/dashboard"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Back to Workspace
+        </Link>
 
-        {/* File Upload Area */}
-        {status === 'idle' && (
-          <div className="mb-6">
-            <label
-              onClick={() => fileInputRef.current?.click()}
-              className="flex items-center justify-center w-full p-8 border-2 border-dashed border-blue-400 rounded-lg cursor-pointer hover:bg-blue-50 dark:hover:bg-slate-700 transition"
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <div className="text-center">
-                <Upload className="w-12 h-12 text-blue-500 mx-auto mb-2" />
-                <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
-                  Click to upload or drag and drop
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  PDF files up to 5MB
-                </p>
-              </div>
-            </label>
-
-            {file && (
-              <div className="mt-4 p-3 bg-blue-50 dark:bg-slate-700 rounded-lg">
-                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  📄 {file.name}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {(file.size / 1024 / 1024).toFixed(2)} MB
-                </p>
-              </div>
-            )}
-
-            {errorMsg && status === 'idle' && (
-              <div className="mt-4 p-3 bg-red-50 dark:bg-red-900 rounded-lg flex items-start gap-2">
-                <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-700 dark:text-red-200">{errorMsg}</p>
-              </div>
-            )}
-
-            {/* Upload Button */}
-            <button
-              onClick={handleUpload}
-              disabled={!file || loading}
-              className="w-full mt-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium rounded-lg transition flex items-center justify-center gap-2"
-            >
-              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {loading ? 'Processing...' : 'Upload and Process'}
-            </button>
-          </div>
-        )}
-
-        {/* Processing Status */}
-        {status === 'uploading' && (
-          <div className="text-center py-8">
-            <Loader2 className="w-10 h-10 text-blue-600 animate-spin mx-auto mb-3" />
-            <p className="text-lg font-medium text-gray-700 dark:text-gray-300">
-              Uploading your resume...
+        <div className="rounded-xl border border-border bg-surface-1 p-8 shadow-xl space-y-6">
+          <div className="space-y-1">
+            <span className="font-mono text-[10px] text-accent uppercase tracking-widest font-semibold">
+              PIPELINE INGESTION
+            </span>
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              Upload Resume
+            </h1>
+            <p className="text-xs text-muted-foreground font-mono">
+              Extract technical skills and generate personalized interview questions.
             </p>
           </div>
-        )}
 
-        {status === 'processing' && (
-          <div className="text-center py-8">
-            <Loader2 className="w-10 h-10 text-blue-600 animate-spin mx-auto mb-3" />
-            <p className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Processing your resume...
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Extracting skills and generating interview questions
-            </p>
-          </div>
-        )}
+          {status === "idle" && (
+            <div className="space-y-4">
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border border-dashed border-border hover:border-accent/60 bg-surface-2/40 hover:bg-surface-2/70 rounded-xl p-8 flex flex-col items-center justify-center gap-3 transition-all cursor-pointer group"
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+                <UploadCloud className="w-8 h-8 text-muted-foreground group-hover:text-accent transition-colors" />
+                <div className="text-center font-mono">
+                  <p className="text-xs font-medium text-foreground">
+                    Click to select or drag and drop
+                  </p>
+                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                    PDF format (up to 5MB)
+                  </p>
+                </div>
+              </div>
 
-        {/* Completed Status */}
-        {status === 'completed' && (
-          <div className="text-center py-8">
-            <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-3" />
-            <p className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-              Success! 🎉
-            </p>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-              Generated {questionsCount} personalized interview questions
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
-              Processing time: {(processingTime / 1000).toFixed(1)}s
-            </p>
+              {file && (
+                <div className="p-3 bg-surface-2 border border-border rounded-lg flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-2 truncate">
+                    <FileCheck2 className="w-4 h-4 text-accent" />
+                    <span className="truncate text-foreground">{file.name}</span>
+                  </div>
+                  <span className="text-muted-foreground shrink-0">
+                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                  </span>
+                </div>
+              )}
 
-            {/* Action Buttons */}
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={handleViewQuestions}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
+              {errorMsg && (
+                <div className="p-3 bg-rose-500/10 border border-rose-500/20 text-xs text-rose-400 font-mono rounded-lg flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+
+              <Button
+                onClick={handleUpload}
+                disabled={!file || loading}
+                className="w-full h-10 font-mono text-xs font-semibold uppercase tracking-wider bg-primary text-primary-foreground hover:bg-primary/90"
               >
-                View Questions
-              </button>
-              <button
-                onClick={handleDownload}
-                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition flex items-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Download JSON
-              </button>
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 bg-gray-300 hover:bg-gray-400 dark:bg-slate-600 dark:hover:bg-slate-700 text-gray-900 dark:text-white font-medium rounded-lg transition"
-              >
-                Upload Another
-              </button>
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  "Upload & Ingest"
+                )}
+              </Button>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Error Status */}
-        {status === 'error' && (
-          <div className="text-center py-8">
-            <AlertCircle className="w-12 h-12 text-red-600 mx-auto mb-3" />
-            <p className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              Processing Failed
-            </p>
-            <p className="text-sm text-red-600 dark:text-red-400 mb-4">
-              {errorMsg}
-            </p>
-            <button
-              onClick={handleReset}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition"
-            >
-              Try Again
-            </button>
-          </div>
-        )}
-      </div>
+          {status === "uploading" && (
+            <div className="text-center py-10 space-y-3 font-mono">
+              <Loader2 className="w-8 h-8 text-accent animate-spin mx-auto" />
+              <p className="text-xs text-foreground">Uploading resume bytes...</p>
+            </div>
+          )}
 
-      {/* Info Box */}
-      <div className="mt-6 p-4 bg-blue-50 dark:bg-slate-700 rounded-lg">
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
-          ℹ️ How it works:
-        </h3>
-        <ol className="text-sm text-gray-700 dark:text-gray-300 space-y-1 list-decimal list-inside">
-          <li>Upload your resume (PDF format)</li>
-          <li>Our AI extracts your skills and experience</li>
-          <li>We generate personalized interview questions</li>
-          <li>Practice and prepare with relevant questions</li>
-        </ol>
+          {status === "processing" && (
+            <div className="text-center py-10 space-y-3 font-mono">
+              <Loader2 className="w-8 h-8 text-accent animate-spin mx-auto" />
+              <p className="text-xs text-foreground">Running FAISS vector pipeline...</p>
+              <p className="text-[11px] text-muted-foreground">
+                Extracting technical entities and generating matched challenges
+              </p>
+            </div>
+          )}
+
+          {status === "completed" && (
+            <div className="text-center py-8 space-y-4 font-mono">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-base font-bold text-foreground">
+                  Extraction Complete
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Generated {questionsCount} questions in {(processingTime / 1000).toFixed(1)}s
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2 justify-center pt-2">
+                <Link to={`/dashboard/questions/${sessionId}`}>
+                  <Button size="sm" className="text-xs font-mono bg-primary text-primary-foreground hover:bg-primary/90">
+                    Explore Questions
+                  </Button>
+                </Link>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleDownload}
+                  className="text-xs font-mono gap-1.5"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  JSON
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={handleReset}
+                  className="text-xs font-mono text-muted-foreground hover:text-foreground"
+                >
+                  Upload Another
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {status === "error" && (
+            <div className="text-center py-8 space-y-4 font-mono">
+              <div className="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mx-auto">
+                <AlertCircle className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-base font-bold text-foreground">Ingestion Error</p>
+                <p className="text-xs text-rose-400 max-w-sm mx-auto">{errorMsg}</p>
+              </div>
+              <Button
+                size="sm"
+                onClick={handleReset}
+                className="text-xs font-mono"
+              >
+                Try Again
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
