@@ -56,7 +56,22 @@ class MLPipelineService {
     }
 
     /**
-     * Save resume buffer to file
+     * Helper to resolve a PDF buffer from either an in-memory Buffer or a file path string.
+     * @param {Buffer|string} bufferOrPath
+     * @returns {Promise<Buffer>}
+     */
+    static async _resolveBuffer(bufferOrPath) {
+        if (Buffer.isBuffer(bufferOrPath)) {
+            return bufferOrPath;
+        }
+        if (typeof bufferOrPath === "string") {
+            return await fs.readFile(bufferOrPath);
+        }
+        throw new ApiError(400, "Invalid resume input: expected Buffer or file path string");
+    }
+
+    /**
+     * Save resume buffer to local file (maintained for legacy compatibility if required)
      * @param {Buffer} pdfBuffer - PDF file buffer
      * @param {string} userId - User ID for organization
      * @returns {Promise<string>} - Path to saved resume
@@ -124,8 +139,8 @@ class MLPipelineService {
         });
     }
 
-    static async _processResumeLocally(resumePath, topK = 30) {
-        const pdfBuffer = await fs.readFile(resumePath);
+    static async _processResumeLocally(bufferOrPath, topK = 30) {
+        const pdfBuffer = await this._resolveBuffer(bufferOrPath);
         const parser = new PDFParse({ data: pdfBuffer });
 
         let parsed;
@@ -224,15 +239,17 @@ class MLPipelineService {
      * Process resume using ML API
      * Extract skills and build semantic profile
      *
-     * @param {string} resumePath - Path to resume PDF
+     * @param {Buffer|string} bufferOrPath - PDF Buffer or path to resume PDF
+     * @param {string} [filename="resume.pdf"]
      * @returns {Promise<Object>} - { profileString, rawSkills, expandedSkills, ... }
      */
-    static async processResume(resumePath) {
+    static async processResume(bufferOrPath, filename = "resume.pdf") {
         try {
-            console.log("[MLPipelineService] Processing resume:", resumePath);
+            const pdfBuffer = await this._resolveBuffer(bufferOrPath);
+            const resolvedFilename = typeof bufferOrPath === "string" ? path.basename(bufferOrPath) : filename;
 
-            // Read PDF file as buffer
-            const pdfBuffer = await fs.readFile(resumePath);
+            console.log("[MLPipelineService] Processing resume:", resolvedFilename);
+
             const base64Data = pdfBuffer.toString("base64");
 
             // Call ML API /extract endpoint
@@ -241,7 +258,7 @@ class MLPipelineService {
                 "POST",
                 {
                     resume_base64: base64Data,
-                    filename: path.basename(resumePath),
+                    filename: resolvedFilename,
                 },
             );
 
@@ -264,23 +281,14 @@ class MLPipelineService {
                 expandedSkills: response.data.expanded_skills || [],
                 extractedData: response.data.extracted_data || {},
                 sectionsFound: response.data.sections_found || [],
+                processingTime: response.data.processing_time_ms || 0,
             };
         } catch (error) {
             if (this._isMLUnavailableError(error)) {
                 console.warn(
-                    "[MLPipelineService] ML API unavailable, using local fallback for resume extraction",
+                    "[MLPipelineService] ML API unavailable, using local fallback for resume processing",
                 );
-                const fallbackResult = await this._processResumeLocally(
-                    resumePath,
-                    30,
-                );
-                return {
-                    profileString: fallbackResult.profileString,
-                    rawSkills: fallbackResult.rawSkills,
-                    expandedSkills: fallbackResult.expandedSkills,
-                    extractedData: fallbackResult.extractedData,
-                    sectionsFound: fallbackResult.sectionsFound,
-                };
+                return await this._processResumeLocally(bufferOrPath);
             }
 
             console.error("Resume processing error:", error);
@@ -292,33 +300,24 @@ class MLPipelineService {
     }
 
     /**
-     * Search for interview questions using ML API
+     * Search for questions matching a profile using FAISS
      *
-     * @param {string} profileString - User's semantic profile
-     * @param {Array<string>} userSkills - Expanded user skills
-     * @param {number} topK - Number of results to return
+     * @param {string} profileString - Search query profile
+     * @param {Array<string>} skills - Expanded skills for tag matching
+     * @param {number} topK - Number of questions to return
      * @param {number} minScore - Minimum similarity threshold
-     * @returns {Promise<Array>} - Array of relevant questions
+     * @returns {Promise<Array>} - List of ranked questions
      */
     static async searchQuestions(
         profileString,
-        userSkills = [],
+        skills = [],
         topK = 30,
         minScore = 0.25,
     ) {
         try {
-            if (!profileString) {
-                throw new ApiError(400, "Profile string is required");
-            }
-
-            if (topK < 1 || topK > 100) {
-                throw new ApiError(400, "topK must be between 1 and 100");
-            }
-
-            console.log("[MLPipelineService] Searching for questions");
-            console.log(`   - top_k: ${topK}`);
-            console.log(`   - min_score: ${minScore}`);
-            console.log(`   - user_skills: ${userSkills.length}`);
+            console.log(
+                `[MLPipelineService] Searching questions (top_k=${topK}, min_score=${minScore})...`,
+            );
 
             // Call ML API /search endpoint
             const response = await this._makeMLAPIRequest(
@@ -326,11 +325,9 @@ class MLPipelineService {
                 "POST",
                 {
                     profile_string: profileString,
-                    user_skills: userSkills,
+                    skills,
                     top_k: topK,
                     min_score: minScore,
-                    use_tag_boosting: true,
-                    with_explanations: false,
                 },
             );
 
@@ -339,11 +336,18 @@ class MLPipelineService {
             }
 
             console.log(
-                `[MLPipelineService] ✅ Found ${response.data.questions?.length || 0} questions in ${response.data.processing_time_ms}ms`,
+                `[MLPipelineService] ✅ Found ${response.data.questions?.length || 0} questions`,
             );
 
             return response.data.questions || [];
         } catch (error) {
+            if (this._isMLUnavailableError(error)) {
+                console.warn(
+                    "[MLPipelineService] ML API unavailable, using local fallback questions",
+                );
+                return this._buildFallbackQuestions(skills, topK);
+            }
+
             console.error("Question search error:", error);
             throw new ApiError(
                 500,
@@ -353,21 +357,23 @@ class MLPipelineService {
     }
 
     /**
-     * End-to-end resume processing and question generation
+     * Complete end-to-end processing (extract + search) in a single step
      *
-     * @param {string} resumePath - Path to resume PDF
-     * @param {number} topK - Number of questions to generate
+     * @param {Buffer|string} bufferOrPath - Resume PDF Buffer or path
+     * @param {number} topK - Number of questions to return
      * @param {number} minScore - Minimum similarity threshold
+     * @param {string} [filename="resume.pdf"]
      * @returns {Promise<Object>} - Complete processing result
      */
-    static async processResumeEndToEnd(resumePath, topK = 30, minScore = 0.25) {
+    static async processResumeEndToEnd(bufferOrPath, topK = 30, minScore = 0.25, filename = "resume.pdf") {
         try {
+            const pdfBuffer = await this._resolveBuffer(bufferOrPath);
+            const resolvedFilename = typeof bufferOrPath === "string" ? path.basename(bufferOrPath) : filename;
+
             console.log(
                 "[MLPipelineService] Starting end-to-end processing...",
             );
 
-            // Read PDF file as buffer
-            const pdfBuffer = await fs.readFile(resumePath);
             const base64Data = pdfBuffer.toString("base64");
 
             // Call ML API /process endpoint (single call for efficiency)
@@ -376,7 +382,7 @@ class MLPipelineService {
                 "POST",
                 {
                     resume_base64: base64Data,
-                    filename: path.basename(resumePath),
+                    filename: resolvedFilename,
                     top_k: topK,
                     min_score: minScore,
                 },
@@ -411,7 +417,7 @@ class MLPipelineService {
                 console.warn(
                     "[MLPipelineService] ML API unavailable, using local fallback for end-to-end processing",
                 );
-                return await this._processResumeLocally(resumePath, topK);
+                return await this._processResumeLocally(bufferOrPath, topK);
             }
 
             console.error("End-to-end processing error:", error);
@@ -430,16 +436,14 @@ class MLPipelineService {
      */
     static async expandSkills(skills) {
         try {
-            if (!Array.isArray(skills) || skills.length === 0) {
-                throw new ApiError(400, "Skills must be a non-empty array");
-            }
+            console.log(
+                `[MLPipelineService] Expanding ${skills.length} skills...`,
+            );
 
             const response = await this._makeMLAPIRequest(
                 "/api/expand-skills",
                 "POST",
-                {
-                    skills,
-                },
+                { skills },
             );
 
             if (!response.success) {
@@ -454,59 +458,59 @@ class MLPipelineService {
     }
 
     /**
-     * Load questions index into memory for faster access
-     * @returns {Promise<Array>} - Array of all questions
+     * Clean and prepare text for ML processing
+     *
+     * @param {string} text - Raw text to clean
+     * @returns {Promise<string>} - Cleaned text
      */
-    static async loadQuestionsIndex() {
+    static async cleanText(text) {
         try {
-            const questionsPath = path.join(
-                ML_SCRIPTS_DIR,
-                "data/questions.json",
+            const response = await this._makeMLAPIRequest(
+                "/api/clean-text",
+                "POST",
+                { text },
             );
-            const data = await fs.readFile(questionsPath, "utf-8");
-            return JSON.parse(data);
+
+            if (!response.success) {
+                throw new Error(response.error || "Text cleaning failed");
+            }
+
+            return response.data.cleaned_text;
         } catch (error) {
-            throw new ApiError(
-                500,
-                `Failed to load questions index: ${error.message}`,
-            );
+            console.error("Text cleaning error:", error);
+            throw new ApiError(500, error.message || "Failed to clean text");
         }
     }
 
     /**
-     * Validate that ML pipeline is properly set up
-     * @returns {Promise<boolean>}
+     * Extract sections from resume text
+     *
+     * @param {string} text - Resume text
+     * @returns {Promise<Object>} - Sections found
      */
-    static async validateSetup() {
+    static async extractSections(text) {
         try {
-            // Check if data files exist
-            const questionsPath = path.join(
-                ML_SCRIPTS_DIR,
-                "data/questions.json",
+            const response = await this._makeMLAPIRequest(
+                "/api/extract-sections",
+                "POST",
+                { text },
             );
-            const indexPath = path.join(ML_SCRIPTS_DIR, "data/questions.index");
 
-            const questionsExists = await fs
-                .access(questionsPath)
-                .then(() => true)
-                .catch(() => false);
-            const indexExists = await fs
-                .access(indexPath)
-                .then(() => true)
-                .catch(() => false);
+            if (!response.success) {
+                throw new Error(
+                    response.error || "Section extraction failed",
+                );
+            }
 
-            // Also check if ML API is healthy
-            const apiHealthy = await this.healthCheck();
-
-            return questionsExists && indexExists && apiHealthy;
+            return response.data;
         } catch (error) {
-            console.error("ML pipeline validation failed:", error);
-            return false;
+            console.error("Section extraction error:", error);
+            throw new ApiError(
+                500,
+                error.message || "Failed to extract sections",
+            );
         }
     }
 }
-
-// Initialize on import
-MLPipelineService.initializeDirs();
 
 export default MLPipelineService;

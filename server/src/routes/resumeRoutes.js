@@ -8,6 +8,7 @@ import {
   getSessionHistory,
   deleteSession,
   exportQuestionsToJSON,
+  downloadResume,
 } from '../controllers/resumeController.js';
 
 const router = Router();
@@ -41,9 +42,16 @@ router.get('/history', getSessionHistory);
 
 /**
  * DELETE /api/resume/session/:sessionId
- * Delete a session
+ * Delete a session and clean up Storage object
  */
 router.delete('/session/:sessionId', deleteSession);
+
+/**
+ * GET /api/resume/download/:sessionId
+ * Stream authenticated resume PDF directly from private Supabase Storage
+ */
+router.get('/download/:sessionId', downloadResume);
+router.get('/file/:sessionId', downloadResume);
 
 /**
  * GET /api/resume/questions/:sessionId/export

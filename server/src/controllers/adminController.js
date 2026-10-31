@@ -1,28 +1,26 @@
-import { Question } from "../models/Question.js";
-import { QuestionSubmission } from "../models/QuestionSubmission.js";
-import { User } from "../models/User.js";
-import { ApiError } from "../utils/apiError.js";
+import { createUserClient } from "../config/supabase.js";
+import { submissionService, questionService } from "../services/db/index.js";
 
-export const getModerationStats = async (_req, res) => {
-  const [totalUsers, pending, approved, rejected] = await Promise.all([
-    User.countDocuments(),
-    QuestionSubmission.countDocuments({ status: "pending" }),
-    QuestionSubmission.countDocuments({ status: "approved" }),
-    QuestionSubmission.countDocuments({ status: "rejected" }),
-  ]);
+/**
+ * Get moderation dashboard statistics
+ * @GET /api/admin/moderation/stats
+ */
+export const getModerationStats = async (req, res) => {
+  const client = createUserClient(req.user.token);
+  const stats = await submissionService.getModerationStats(client);
 
-  return res.status(200).json({
-    stats: {
-      totalUsers,
-      pendingSubmissions: pending,
-      approvedSubmissions: approved,
-      rejectedSubmissions: rejected,
-    },
-  });
+  return res.status(200).json({ stats });
 };
 
-export const getModerationNotifications = async (_req, res) => {
-  const pendingCount = await QuestionSubmission.countDocuments({ status: "pending" });
+/**
+ * Get moderation notification counts
+ * @GET /api/admin/moderation/notifications
+ */
+export const getModerationNotifications = async (req, res) => {
+  const client = createUserClient(req.user.token);
+  const stats = await submissionService.getModerationStats(client);
+  const pendingCount = stats.pendingSubmissions || 0;
+
   return res.status(200).json({
     notifications: {
       pendingCount,
@@ -31,74 +29,58 @@ export const getModerationNotifications = async (_req, res) => {
   });
 };
 
+/**
+ * List pending community question submissions
+ * @GET /api/admin/moderation/pending
+ */
 export const listPendingSubmissions = async (req, res) => {
   const page = Math.max(Number(req.query.page) || 1, 1);
   const limit = Math.min(Math.max(Number(req.query.limit) || 20, 1), 100);
   const search = String(req.query.search || "").trim();
 
-  const query = { status: "pending" };
-  if (search) {
-    query.$or = [
-      { questionText: { $regex: search, $options: "i" } },
-      { company: { $regex: search, $options: "i" } },
-      { tags: { $elemMatch: { $regex: search, $options: "i" } } },
-    ];
-  }
-
-  const [items, total] = await Promise.all([
-    QuestionSubmission.find(query)
-      .populate("submittedBy", "fullName email")
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit),
-    QuestionSubmission.countDocuments(query),
-  ]);
-
-  return res.status(200).json({
-    submissions: items,
-    pagination: {
-      page,
-      limit,
-      total,
-      totalPages: Math.max(Math.ceil(total / limit), 1),
-    },
+  const client = createUserClient(req.user.token);
+  const result = await submissionService.listPendingSubmissions(client, {
+    page,
+    limit,
+    search,
   });
+
+  return res.status(200).json(result);
 };
 
+/**
+ * List reviewed (approved or rejected) community question submissions
+ * @GET /api/admin/moderation/reviewed
+ */
 export const listReviewedSubmissions = async (req, res) => {
   const page = Math.max(Number(req.query.page) || 1, 1);
   const limit = Math.min(Math.max(Number(req.query.limit) || 20, 1), 100);
 
-  const [items, total] = await Promise.all([
-    QuestionSubmission.find({ status: { $in: ["approved", "rejected"] } })
-      .populate("submittedBy", "fullName email")
-      .populate("reviewedBy", "fullName email")
-      .sort({ reviewedAt: -1, createdAt: -1 })
-      .skip((page - 1) * limit)
-      .limit(limit),
-    QuestionSubmission.countDocuments({ status: { $in: ["approved", "rejected"] } }),
-  ]);
-
-  return res.status(200).json({
-    submissions: items,
-    pagination: {
-      page,
-      limit,
-      total,
-      totalPages: Math.max(Math.ceil(total / limit), 1),
-    },
+  const client = createUserClient(req.user.token);
+  const result = await submissionService.listReviewedSubmissions(client, {
+    page,
+    limit,
   });
+
+  return res.status(200).json(result);
 };
 
+/**
+ * Add a question directly to the curated question bank
+ * @POST /api/admin/questions
+ */
 export const createQuestionDirectly = async (req, res) => {
-  const { questionText, tags, company, seenInInterview } = req.body;
+  const { questionText, tags, company, seenInInterview, topic, difficulty } = req.body;
+  const client = createUserClient(req.user.token);
 
-  const question = await Question.create({
+  const question = await questionService.createCuratedQuestion(client, {
     questionText,
-    tags: [...new Set((tags || []).map((tag) => tag.trim().toLowerCase()).filter(Boolean))],
-    company: company || "",
+    tags,
+    company,
     seenInInterview,
-    approvedBy: req.user.sub,
+    topic: topic || "General",
+    difficulty: difficulty || "Medium",
+    approvedBy: req.user.id || req.user.sub,
   });
 
   return res.status(201).json({
@@ -107,53 +89,39 @@ export const createQuestionDirectly = async (req, res) => {
   });
 };
 
+/**
+ * Approve a pending community submission and add to master question bank
+ * @POST /api/admin/moderation/submissions/:id/approve
+ */
 export const approveSubmission = async (req, res) => {
-  const submission = await QuestionSubmission.findById(req.params.id);
-  if (!submission) {
-    throw new ApiError(404, "Submission not found");
-  }
+  const client = createUserClient(req.user.token);
+  const submissionId = req.params.id;
 
-  if (submission.status !== "pending") {
-    throw new ApiError(409, "Submission has already been reviewed");
-  }
-
-  const approvedQuestion = await Question.create({
-    questionText: submission.questionText,
-    tags: submission.tags,
-    company: submission.company,
-    seenInInterview: submission.seenInInterview,
-    sourceSubmissionId: submission._id,
-    approvedBy: req.user.sub,
+  const result = await submissionService.approveSubmission(client, submissionId, {
+    questionText: req.body.questionText,
+    topic: req.body.topic,
+    tags: req.body.tags,
+    company: req.body.company,
+    difficulty: req.body.difficulty,
+    adminNote: req.body.adminNote || "",
   });
 
-  submission.status = "approved";
-  submission.reviewedBy = req.user.sub;
-  submission.reviewedAt = new Date();
-  submission.adminNote = req.body.adminNote || "";
-  submission.approvedQuestionId = approvedQuestion._id;
-  await submission.save();
-
-  return res.status(200).json({
-    message: "Submission approved and added to dataset",
-    approvedQuestionId: approvedQuestion._id,
-  });
+  return res.status(200).json(result);
 };
 
+/**
+ * Reject a pending community submission
+ * @POST /api/admin/moderation/submissions/:id/reject
+ */
 export const rejectSubmission = async (req, res) => {
-  const submission = await QuestionSubmission.findById(req.params.id);
-  if (!submission) {
-    throw new ApiError(404, "Submission not found");
-  }
+  const client = createUserClient(req.user.token);
+  const submissionId = req.params.id;
 
-  if (submission.status !== "pending") {
-    throw new ApiError(409, "Submission has already been reviewed");
-  }
+  const result = await submissionService.rejectSubmission(
+    client,
+    submissionId,
+    req.body.adminNote || "",
+  );
 
-  submission.status = "rejected";
-  submission.reviewedBy = req.user.sub;
-  submission.reviewedAt = new Date();
-  submission.adminNote = req.body.adminNote || "";
-  await submission.save();
-
-  return res.status(200).json({ message: "Submission rejected" });
+  return res.status(200).json(result);
 };

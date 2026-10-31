@@ -1,12 +1,17 @@
 import { PDFParse } from "pdf-parse";
 
 import { ApiError } from "../utils/apiError.js";
-import { QuestionGenerationSession } from "../models/QuestionGenerationSession.js";
-import { QuestionPracticeAttempt } from "../models/QuestionPracticeAttempt.js";
-import { QuestionSubmission } from "../models/QuestionSubmission.js";
 import { evaluateAnswerWithGemini } from "../services/geminiService.js";
 import { extractSkillsFromResumeText } from "../utils/skillExtractor.js";
 import MLPipelineService from "../utils/mlPipelineService.js";
+import { createUserClient } from "../config/supabase.js";
+import {
+  sessionService,
+  questionService,
+  practiceService,
+  submissionService,
+  resumeService,
+} from "../services/db/index.js";
 
 const normalizeTags = (tags) =>
     [
@@ -21,7 +26,7 @@ const normalizeTextList = (items) => [
     ),
 ];
 
-const normalizeSessionField = (value) => value.trim().toLowerCase();
+const normalizeSessionField = (value) => (value || "").trim().toLowerCase();
 
 const buildSessionIdentity = ({
     targetRole,
@@ -55,24 +60,11 @@ const sessionMatchesIdentity = (session, identity) => {
             identity.targetDomain &&
         normalizeSessionField(session.sourceFileName || "") ===
             identity.sourceFileName &&
-        session.generatedQuestions.length === identity.questionCount &&
         sessionSkills.length === identity.resumeSkills.length &&
         sessionSkills.every(
             (skill, index) => skill === identity.resumeSkills[index],
         )
     );
-};
-
-const shapeSessionForResponse = async (session) => {
-    const answeredCount = await QuestionPracticeAttempt.countDocuments({
-        generationSession: session._id,
-    });
-
-    return {
-        ...session.toObject(),
-        answeredCount,
-        totalQuestions: session.generatedQuestions.length,
-    };
 };
 
 const roleSkillMap = {
@@ -118,85 +110,42 @@ const roleSkillMap = {
     ],
 };
 
-const domainSkillMap = {
-    fintech: ["security", "compliance", "distributed systems", "risk handling"],
-    healthcare: ["privacy", "compliance", "reliability", "data governance"],
-    ecommerce: ["performance", "scalability", "experimentation", "analytics"],
-    ai: [
-        "machine learning",
-        "prompt engineering",
-        "model evaluation",
-        "data pipelines",
-    ],
-    saas: [
-        "multi-tenant architecture",
-        "billing",
-        "observability",
-        "customer analytics",
-    ],
-};
-
-const levelSkillMap = {
-    intern: ["fundamentals", "debugging", "communication"],
-    junior: ["feature ownership", "testing", "code quality"],
-    mid: ["system design", "cross-team collaboration", "performance"],
-    senior: ["architecture", "mentoring", "trade-off analysis", "scalability"],
-    lead: [
-        "technical leadership",
-        "roadmapping",
-        "stakeholder communication",
-        "hiring",
-    ],
-};
-
-const inferRoleSkills = (targetRole = "") => {
-    const role = targetRole.toLowerCase();
-    if (role.includes("front")) return roleSkillMap.frontend;
-    if (role.includes("back")) return roleSkillMap.backend;
-    if (role.includes("full")) return roleSkillMap.fullstack;
-    if (role.includes("data") || role.includes("ml")) return roleSkillMap.data;
-    if (role.includes("devops") || role.includes("platform"))
-        return roleSkillMap.devops;
-    return [
-        "problem solving",
-        "system design",
-        "communication",
-        "ownership",
-        "testing",
-    ];
-};
-
 const buildSkillGapInsights = ({
     resumeSkills,
     targetRole,
-    targetCompany,
-    targetLevel,
-    targetDomain,
+    targetCompany: _targetCompany,
+    targetLevel: _targetLevel,
+    targetDomain: _targetDomain,
 }) => {
     const normalizedResumeSkills = normalizeTextList(resumeSkills);
-    const targetSkills = normalizeTextList([
-        ...inferRoleSkills(targetRole),
-        ...(domainSkillMap[targetDomain?.toLowerCase()] || []),
-        ...(levelSkillMap[targetLevel] || []),
-        targetCompany ? `${targetCompany.toLowerCase()} interview prep` : "",
-    ]);
+    const resumeSkillSet = new Set(normalizedResumeSkills);
 
-    const matchedSkills = targetSkills.filter((skill) =>
-        normalizedResumeSkills.some(
-            (resumeSkill) =>
-                resumeSkill.includes(skill) || skill.includes(resumeSkill),
-        ),
-    );
-    const missingSkills = targetSkills.filter(
-        (skill) => !matchedSkills.includes(skill),
+    const lookupRole = (targetRole || "").toLowerCase();
+    const matchedRoleKey = Object.keys(roleSkillMap).find((roleKey) =>
+        lookupRole.includes(roleKey),
     );
 
-    const prioritizedLearningPlan = missingSkills
-        .slice(0, 5)
-        .map((skill, index) => {
-            const priority = index < 2 ? "High" : index < 4 ? "Medium" : "Low";
-            return `${priority}: Build one interview-ready project story for ${skill}.`;
-        });
+    const baselineSkills = matchedRoleKey
+        ? roleSkillMap[matchedRoleKey]
+        : [
+              "problem solving",
+              "system design",
+              "communication",
+              "testing",
+              "performance",
+          ];
+
+    const matchedSkills = baselineSkills.filter((skill) =>
+        resumeSkillSet.has(skill),
+    );
+    const missingSkills = baselineSkills.filter(
+        (skill) => !resumeSkillSet.has(skill),
+    );
+
+    const prioritizedLearningPlan = missingSkills.map(
+        (skill, index) =>
+            `Week ${index + 1}: Build practical confidence in ${skill} through targeted projects and mock interview drills.`,
+    );
 
     return {
         matchedSkills,
@@ -204,27 +153,6 @@ const buildSkillGapInsights = ({
         prioritizedLearningPlan,
     };
 };
-
-const defaultQuestionTemplates = [
-    ({ skill, targetRole }) =>
-        `Describe a project where you applied ${skill}. What did you do, and what was the measurable outcome${targetRole ? ` for the ${targetRole} role` : ""}?`,
-    ({ skill }) =>
-        `How would you explain your approach to ${skill} to a teammate who had never worked on that area before?`,
-    ({ skill }) =>
-        `Tell me about a time you had to make a trade-off while working with ${skill}. What did you choose and why?`,
-    ({ skill }) =>
-        `What is one difficult problem you solved using ${skill}, and how did you validate that your solution was correct?`,
-    ({ skill, targetRole }) =>
-        `If you joined a team as a ${targetRole || "new hire"}, how would you use ${skill} in your first 30 days?`,
-];
-
-const fallbackSkills = [
-    "problem solving",
-    "communication",
-    "ownership",
-    "system design",
-    "collaboration",
-];
 
 const buildGeneratedQuestions = ({
     resumeSkills,
@@ -234,178 +162,160 @@ const buildGeneratedQuestions = ({
     targetDomain,
     questionCount,
 }) => {
-    const skills = [...new Set((resumeSkills || []).filter(Boolean))].slice(
-        0,
-        questionCount,
-    );
-    const selectedSkills =
-        skills.length > 0 ? skills : fallbackSkills.slice(0, questionCount);
-    const contextParts = [
-        targetRole,
-        targetCompany,
-        targetLevel,
-        targetDomain,
-    ].filter(Boolean);
-    const contextLabel =
-        contextParts.length > 0 ? ` (${contextParts.join(" • ")})` : "";
+    const skills = normalizeTextList(resumeSkills);
+    const primarySkill = skills[0] || targetDomain || targetRole || "core concepts";
+    const secondarySkill = skills[1] || "system design";
 
-    return Array.from({ length: questionCount }, (_value, index) => {
-        const skill = selectedSkills[index % selectedSkills.length];
-        const template =
-            defaultQuestionTemplates[index % defaultQuestionTemplates.length];
-        const tags = [
-            skill,
-            targetRole,
-            targetCompany,
-            targetLevel,
-            targetDomain,
-        ]
-            .filter(Boolean)
-            .map((item) => item.toLowerCase());
+    const baseTemplates = [
+        `How would you design and implement a production-grade feature using ${primarySkill} for a ${targetLevel} ${targetRole} role at ${targetCompany || "a high-growth product company"}?`,
+        `Describe a challenging debugging scenario involving ${primarySkill}. How did you identify root cause and prevent regressions?`,
+        `How do you evaluate performance bottlenecks when working with ${secondarySkill} in high-throughput environments?`,
+        `Explain how you maintain testing standards, code reviews, and reliability when shipping complex changes with ${primarySkill}.`,
+        `Walk me through an architectural trade-off you made between development speed and long-term maintainability using ${secondarySkill}.`,
+        `How do you handle data consistency, failure recovery, and observability in distributed workflows relevant to ${targetDomain || targetRole}?`,
+        `What strategies do you use for secure configuration, secret management, and access controls in modern services?`,
+        `Describe how you collaborate across product, design, and engineering to clarify underspecified requirements under tight deadlines.`,
+        `How do you mentor junior teammates and establish effective engineering best practices across a team?`,
+        `Tell me about an ambiguous production outage or escalation you resolved under pressure. What was the impact?`,
+    ];
 
-        return {
-            questionText: `${template({ skill, targetRole })}${contextLabel}`,
-            tags: normalizeTags(tags),
-            focusSkill: skill,
-        };
-    });
+    const generated = [];
+    for (let index = 0; index < questionCount; index += 1) {
+        const template = baseTemplates[index % baseTemplates.length];
+        const focusSkill = index % 2 === 0 ? primarySkill : secondarySkill;
+
+        generated.push({
+            questionText: template,
+            question: template,
+            tags: normalizeTags([
+                focusSkill,
+                targetRole,
+                targetCompany,
+                targetLevel,
+            ]),
+            focusSkill,
+            topic: focusSkill,
+            difficulty: index % 3 === 0 ? "Easy" : index % 3 === 1 ? "Medium" : "Hard",
+            sourceType: "fallback",
+        });
+    }
+
+    return generated;
 };
 
-const scoreAnswerRubric = (answerText, questionText) => {
-    const words = answerText.trim().split(/\s+/).filter(Boolean);
-    const sentenceCount = Math.max(
-        answerText.split(/[.!?]+/).filter(Boolean).length,
-        1,
-    );
-    const hasStructureMarkers =
-        /\b(first|second|third|finally|star|situation|task|action|result)\b/i.test(
-            answerText,
-        );
-    const hasOutcome =
-        /\b(result|impact|improved|reduced|increased|delivered|shipped|saved)\b/i.test(
-            answerText,
-        );
-    const hasQuestionKeywords = questionText
-        .split(/\s+/)
-        .slice(0, 6)
-        .some((word) => answerText.toLowerCase().includes(word.toLowerCase()));
+const scoreAnswerRubric = (answerText, _questionText) => {
+    const text = (answerText || "").trim();
+    const length = text.length;
 
-    const clarity = Math.min(
-        10,
-        Math.round(words.length / 30) +
-            (sentenceCount >= 3 ? 3 : 1) +
-            (hasStructureMarkers ? 2 : 0),
-    );
-    const structure = Math.min(
-        10,
-        (hasStructureMarkers ? 5 : 2) + (sentenceCount >= 3 ? 3 : 1),
-    );
-    const depth = Math.min(
-        10,
-        Math.round(words.length / 45) +
-            (hasOutcome ? 3 : 1) +
-            (answerText.length > 400 ? 2 : 0),
-    );
-    const relevance = Math.min(
-        10,
-        (hasQuestionKeywords ? 5 : 2) + (answerText.length > 120 ? 3 : 1),
-    );
+    const clarity = Math.min(10, Math.max(3, Math.floor(length / 90) + 3));
+    const structure = /first|second|then|finally|result|because/i.test(text) ? 8 : 5;
+    const depth = /(metric|latency|scale|trade-off|architecture|test|cache)/i.test(text) ? 8 : 4;
+    const relevance = length > 120 ? 8 : 4;
 
+    const rubricScore = { clarity, structure, depth, relevance };
     const overallScore = Math.round(
         (clarity + structure + depth + relevance) / 4,
     );
-    const isMatch = relevance >= 6;
-    const shouldImprove = overallScore < 8;
 
     return {
-        rubricScore: {
-            clarity,
-            structure,
-            depth,
-            relevance,
-        },
+        rubricScore,
         overallScore,
-        isMatch,
-        shouldImprove,
+        isMatch: overallScore >= 7,
+        shouldImprove: overallScore < 8,
         strengths: [
-            hasStructureMarkers
-                ? "Clear structure with guided flow."
-                : "Answer is concise and easy to follow.",
-            hasOutcome
-                ? "You mentioned impact or outcomes."
-                : "Consider including measurable results.",
+            "Includes relevant technical context and intent.",
+            "Demonstrates direct practical familiarity with the question.",
         ],
         improvements: [
-            words.length < 80
-                ? "Expand with more specific details and examples."
-                : "Trim repetition and keep the answer focused.",
-            hasQuestionKeywords
-                ? "Good relevance to the question."
-                : "Tie your answer more directly to the asked question.",
+            "Quantify business and engineering outcomes using metrics.",
+            "State architectural trade-offs explicitly before detailing your approach.",
         ],
         feedbackSummary:
-            overallScore >= 8
-                ? "Strong answer. It is structured, relevant, and shows clear impact."
-                : overallScore >= 5
-                  ? "Good foundation. Add more structure, evidence, and measurable outcomes."
-                  : "Answer needs more structure and deeper examples to be interview-ready.",
+            overallScore >= 7
+                ? "Good foundation. Add more structure, evidence, and measurable outcomes."
+                : "Answer needs more structure and deeper examples to be interview-ready.",
     };
 };
 
+/**
+ * Submit community interview question
+ * @POST /api/questions/submissions
+ */
 export const createSubmission = async (req, res) => {
     const { questionText, tags, company, seenInInterview } = req.body;
+    const client = createUserClient(req.user.token);
 
-    const submission = await QuestionSubmission.create({
+    const submission = await submissionService.createSubmission(client, {
+        submittedBy: req.user.id || req.user.sub,
         questionText,
         tags: normalizeTags(tags),
         company: company || "",
-        seenInInterview,
-        submittedBy: req.user.sub,
+        seenInInterview: Boolean(seenInInterview),
     });
 
     return res.status(201).json({
         message: "Question submitted for admin review",
         submission: {
-            id: submission._id,
+            id: submission.id,
             status: submission.status,
             createdAt: submission.createdAt,
         },
     });
 };
 
+/**
+ * List submissions by authenticated user
+ * @GET /api/questions/submissions/me
+ */
 export const listMySubmissions = async (req, res) => {
-    const submissions = await QuestionSubmission.find({
-        submittedBy: req.user.sub,
-    })
-        .sort({ createdAt: -1 })
-        .select(
-            "questionText tags company seenInInterview status adminNote createdAt reviewedAt",
-        );
+    const client = createUserClient(req.user.token);
+    const result = await submissionService.listUserSubmissions(
+        client,
+        req.user.id || req.user.sub,
+        {
+            page: req.query.page,
+            limit: req.query.limit,
+        },
+    );
 
-    return res.status(200).json({ submissions });
+    return res.status(200).json({ submissions: result.submissions });
 };
 
+/**
+ * Upload resume buffer and extract skills via ML pipeline with Supabase Storage persistence
+ * @POST /api/questions/resume/skills
+ */
 export const uploadResumeAndExtractSkills = async (req, res) => {
     if (!req.file) {
         throw new ApiError(400, "Resume PDF is required");
     }
 
-    const userId = req.user.sub;
+    const userId = req.user.id || req.user.sub;
+    const client = createUserClient(req.user.token);
+
+    // Upload to Supabase Storage and create metadata record
+    const resumeRecord = await resumeService.uploadAndPersistResume(client, {
+        userId,
+        fileName: req.file.originalname,
+        buffer: req.file.buffer,
+        mimeType: req.file.mimetype || "application/pdf",
+    });
 
     try {
-        // Step 1: Save resume file for ML pipeline
-        const resumePath = await MLPipelineService.saveResumeFile(
+        const profileResult = await MLPipelineService.processResume(
             req.file.buffer,
-            userId,
+            req.file.originalname,
         );
-
-        // Step 2: Process resume with ML pipeline (extract text + build profile)
-        const profileResult =
-            await MLPipelineService.processResume(resumePath);
-
-        // Use ML-extracted skills (raw skills from the pipeline)
         const rawSkills = profileResult.rawSkills || [];
         const expandedSkills = profileResult.expandedSkills || [];
+        const sectionsFound = profileResult.sectionsFound || [];
+
+        // Update resume metadata record with extracted skills
+        await resumeService.updateResumeSkills(client, resumeRecord.id, {
+            rawSkills,
+            expandedSkills,
+            sectionsFound,
+        });
 
         return res.status(200).json({
             message: "Resume analyzed with ML pipeline successfully",
@@ -414,12 +324,12 @@ export const uploadResumeAndExtractSkills = async (req, res) => {
             expandedSkills: expandedSkills,
             totalSkills: rawSkills.length,
             totalExpanded: expandedSkills.length,
-            sectionsFound: profileResult.sectionsFound || [],
+            sectionsFound,
+            resumeId: resumeRecord.id,
         });
     } catch (error) {
-        // Fallback to simple regex extractor if ML API is down
         console.warn(
-            "ML pipeline unavailable, falling back to regex extractor:",
+            "ML pipeline unavailable, falling back to local extractor:",
             error.message,
         );
 
@@ -428,7 +338,9 @@ export const uploadResumeAndExtractSkills = async (req, res) => {
         try {
             parsed = await parser.getText();
         } finally {
-            await parser.destroy();
+            if (typeof parser.destroy === "function") {
+                await parser.destroy();
+            }
         }
 
         const resumeText = (parsed?.text || "").trim();
@@ -441,6 +353,12 @@ export const uploadResumeAndExtractSkills = async (req, res) => {
 
         const skills = extractSkillsFromResumeText(resumeText);
 
+        await resumeService.updateResumeSkills(client, resumeRecord.id, {
+            rawSkills: skills,
+            expandedSkills: skills,
+            sectionsFound: [],
+        });
+
         return res.status(200).json({
             message:
                 "Resume analyzed successfully (fallback mode — ML API unavailable)",
@@ -451,10 +369,15 @@ export const uploadResumeAndExtractSkills = async (req, res) => {
             totalExpanded: skills.length,
             sectionsFound: [],
             fallback: true,
+            resumeId: resumeRecord.id,
         });
     }
 };
 
+/**
+ * Generate questions and create an interview session
+ * @POST /api/questions/generate
+ */
 export const generateQuestions = async (req, res) => {
     const {
         targetRole,
@@ -465,11 +388,11 @@ export const generateQuestions = async (req, res) => {
         resumeSkills,
         questionCount = 10,
         forceNew,
-        resumePath, // Path to the uploaded resume
     } = req.body;
 
-    // Default to at least 10 questions
     const requestedCount = Math.max(10, questionCount || 10);
+    const userId = req.user.id || req.user.sub;
+    const client = createUserClient(req.user.token);
 
     const sessionIdentity = buildSessionIdentity({
         targetRole,
@@ -481,29 +404,43 @@ export const generateQuestions = async (req, res) => {
         questionCount: requestedCount,
     });
 
-    // Check for existing matching session
+    // Check for existing matching session if forceNew is not set
     if (!forceNew) {
-        const existingSessions = await QuestionGenerationSession.find({
-            user: req.user.sub,
-        })
-            .sort({ lastAccessedAt: -1 })
-            .limit(50);
+        const existingSessions = await sessionService.listUserSessions(
+            client,
+            userId,
+            { limit: 50 },
+        );
 
         const matchingSession = existingSessions.find((session) =>
             sessionMatchesIdentity(session, sessionIdentity),
         );
 
         if (matchingSession) {
+            const { questions } = await questionService.getSessionQuestions(
+                client,
+                matchingSession.id,
+                { limit: 100 },
+            );
+            const answeredCount = await practiceService.countSessionPracticeAttempts(
+                client,
+                matchingSession.id,
+            );
+
             return res.status(409).json({
                 message:
                     "A matching session already exists for this resume and target setup.",
-                existingSession: await shapeSessionForResponse(matchingSession),
+                existingSession: {
+                    ...matchingSession,
+                    answeredCount,
+                    totalQuestions: questions.length,
+                    generatedQuestions: questions,
+                },
                 duplicate: true,
             });
         }
     }
 
-    // Build skill gap insights
     const skillGap = buildSkillGapInsights({
         resumeSkills,
         targetRole,
@@ -512,13 +449,11 @@ export const generateQuestions = async (req, res) => {
         targetDomain,
     });
 
-    // Select skills for ML API search
     const searchSkills =
         resumeSkills && resumeSkills.length > 0
             ? resumeSkills
             : skillGap.missingSkills.slice(0, 5);
 
-    // Build profile string for ML API
     const profileParts = [
         searchSkills.length > 0
             ? `Technical skills: ${searchSkills.join(", ")}`
@@ -538,25 +473,21 @@ export const generateQuestions = async (req, res) => {
     let generatedQuestions = [];
     let mlApiError = null;
 
-    // Try to fetch real questions from ML API
     try {
-        console.log(
-            "[generateQuestions] Calling ML API to search for questions...",
-        );
-
         const mlQuestions = await MLPipelineService.searchQuestions(
             profileString,
             searchSkills,
-            Math.max(requestedCount, 30), // Request more to ensure we get at least 10
-            0.15, // Lower threshold to get more results
+            Math.max(requestedCount, 30),
+            0.15,
         );
 
-        // Transform ML API questions to session format
         if (mlQuestions && mlQuestions.length > 0) {
             generatedQuestions = mlQuestions
-                .slice(0, requestedCount) // Take only requested count
+                .slice(0, requestedCount)
                 .map((q) => ({
                     questionText:
+                        q.question || q.questionText || "Interview question",
+                    question:
                         q.question || q.questionText || "Interview question",
                     tags: normalizeTags([
                         ...(q.tags || []),
@@ -565,25 +496,23 @@ export const generateQuestions = async (req, res) => {
                         targetLevel,
                     ]),
                     focusSkill: q.topic || q.tags?.[0] || searchSkills[0] || "",
+                    topic: q.topic || searchSkills[0] || "General",
+                    difficulty: q.difficulty || "Medium",
+                    score: q.similarity_score || q.score || 0.85,
+                    tag_score: q.tag_overlap || 0,
+                    final_score: q.combined_score || q.similarity_score || 0.85,
+                    sourceType: "ml_dataset",
                 }));
-
-            console.log(
-                `[generateQuestions] ✅ Got ${generatedQuestions.length} real questions from ML API`,
-            );
         }
     } catch (error) {
         mlApiError = error.message;
         console.warn(
-            "[generateQuestions] ML API error (will use fallback):",
+            "[generateQuestions] ML API error (using fallback):",
             mlApiError,
         );
     }
 
-    // Fallback: Use template-based generation if ML API fails
     if (generatedQuestions.length === 0) {
-        console.log(
-            "[generateQuestions] Using fallback template-based question generation...",
-        );
         generatedQuestions = buildGeneratedQuestions({
             resumeSkills: searchSkills,
             targetRole,
@@ -594,12 +523,8 @@ export const generateQuestions = async (req, res) => {
         });
     }
 
-    // Ensure we have at least 10 questions
     if (generatedQuestions.length < 10) {
         const additionalCount = 10 - generatedQuestions.length;
-        console.log(
-            `[generateQuestions] Adding ${additionalCount} fallback questions to reach minimum of 10`,
-        );
         const fallbackQuestions = buildGeneratedQuestions({
             resumeSkills: searchSkills,
             targetRole,
@@ -611,20 +536,34 @@ export const generateQuestions = async (req, res) => {
         generatedQuestions = [...generatedQuestions, ...fallbackQuestions];
     }
 
-    // Create session with generated questions
-    const session = await QuestionGenerationSession.create({
-        user: req.user.sub,
-        targetRole,
-        targetCompany,
-        targetLevel,
-        targetDomain,
-        sourceFileName,
+    const finalQuestions = generatedQuestions.slice(0, requestedCount);
+
+    // Create session in PostgreSQL
+    const session = await sessionService.createSession(client, {
+        userId,
+        targetRole: targetRole || "",
+        targetCompany: targetCompany || "",
+        targetLevel: targetLevel || "mid",
+        targetDomain: targetDomain || "",
+        sourceFileName: sourceFileName || "",
         resumeSkills: normalizeTags(resumeSkills),
         skillGap,
-        generatedQuestions: generatedQuestions.slice(0, requestedCount),
+        status: "completed",
     });
 
-    const responseData = await shapeSessionForResponse(session);
+    // Persist questions in session_questions
+    const persistedQuestions = await questionService.createSessionQuestions(
+        client,
+        session.id,
+        finalQuestions,
+    );
+
+    const responseData = {
+        ...session,
+        answeredCount: 0,
+        totalQuestions: persistedQuestions.length,
+        generatedQuestions: persistedQuestions,
+    };
 
     return res.status(201).json({
         message: "Questions generated successfully",
@@ -635,23 +574,35 @@ export const generateQuestions = async (req, res) => {
     });
 };
 
+/**
+ * List history of generated question sessions
+ * @GET /api/questions/history
+ */
 export const listQuestionHistory = async (req, res) => {
-    const sessions = await QuestionGenerationSession.find({
-        user: req.user.sub,
-    })
-        .sort({ lastAccessedAt: -1 })
-        .limit(20);
+    const userId = req.user.id || req.user.sub;
+    const client = createUserClient(req.user.token);
 
-    // Fetch answered count for each session
+    const sessions = await sessionService.listUserSessions(client, userId, {
+        limit: 20,
+    });
+
     const sessionsWithCount = await Promise.all(
         sessions.map(async (session) => {
-            const answeredCount = await QuestionPracticeAttempt.countDocuments({
-                generationSession: session._id,
-            });
+            const answeredCount = await practiceService.countSessionPracticeAttempts(
+                client,
+                session.id,
+            );
+            const { questions } = await questionService.getSessionQuestions(
+                client,
+                session.id,
+                { limit: 100 },
+            );
+
             return {
-                ...session.toObject(),
+                ...session,
                 answeredCount,
-                totalQuestions: session.generatedQuestions.length,
+                totalQuestions: questions.length,
+                generatedQuestions: questions,
             };
         }),
     );
@@ -659,8 +610,15 @@ export const listQuestionHistory = async (req, res) => {
     return res.status(200).json({ sessions: sessionsWithCount });
 };
 
+/**
+ * Submit answer for practice and receive AI feedback
+ * @POST /api/questions/practice
+ */
 export const practiceAnswerFeedback = async (req, res) => {
-    const { questionText, answerText, generationSessionId } = req.body;
+    const { questionText, answerText, generationSessionId, questionId } = req.body;
+    const userId = req.user.id || req.user.sub;
+    const client = createUserClient(req.user.token);
+
     let analysis = null;
     let feedbackProvider = "heuristic";
 
@@ -693,9 +651,10 @@ export const practiceAnswerFeedback = async (req, res) => {
         analysis = scoreAnswerRubric(answerText, questionText);
     }
 
-    const attempt = await QuestionPracticeAttempt.create({
-        user: req.user.sub,
-        generationSession: generationSessionId || null,
+    const attempt = await practiceService.createPracticeAttempt(client, {
+        userId,
+        sessionId: generationSessionId || null,
+        questionId: questionId || null,
         questionText,
         answerText,
         rubricScore: analysis.rubricScore,
@@ -705,13 +664,15 @@ export const practiceAnswerFeedback = async (req, res) => {
         feedbackSummary: analysis.feedbackSummary,
         strengths: analysis.strengths,
         improvements: analysis.improvements,
+        feedbackProvider,
     });
 
-    // Update session's lastAccessedAt
     if (generationSessionId) {
-        await QuestionGenerationSession.findByIdAndUpdate(generationSessionId, {
-            lastAccessedAt: new Date(),
-        });
+        try {
+            await sessionService.touchSessionAccess(client, generationSessionId);
+        } catch (_touchErr) {
+            // Non-critical touch failure
+        }
     }
 
     return res.status(201).json({
@@ -721,20 +682,15 @@ export const practiceAnswerFeedback = async (req, res) => {
     });
 };
 
+/**
+ * Access session (touch last accessed)
+ * @POST /api/questions/:sessionId/access
+ */
 export const accessSession = async (req, res) => {
     const { sessionId } = req.params;
+    const client = createUserClient(req.user.token);
 
-    const session = await QuestionGenerationSession.findById(sessionId);
-    if (!session) {
-        throw new ApiError(404, "Session not found");
-    }
-
-    if (session.user.toString() !== req.user.sub) {
-        throw new ApiError(403, "Unauthorized to access this session");
-    }
-
-    session.lastAccessedAt = new Date();
-    await session.save();
+    const session = await sessionService.touchSessionAccess(client, sessionId);
 
     return res.status(200).json({
         message: "Session accessed",
@@ -742,32 +698,16 @@ export const accessSession = async (req, res) => {
     });
 };
 
+/**
+ * Rename session
+ * @PATCH /api/questions/:sessionId/rename
+ */
 export const renameSession = async (req, res) => {
     const { sessionId } = req.params;
     const { displayName } = req.body;
+    const client = createUserClient(req.user.token);
 
-    if (
-        !displayName ||
-        typeof displayName !== "string" ||
-        displayName.trim().length === 0
-    ) {
-        throw new ApiError(
-            400,
-            "Display name is required and must be non-empty",
-        );
-    }
-
-    const session = await QuestionGenerationSession.findById(sessionId);
-    if (!session) {
-        throw new ApiError(404, "Session not found");
-    }
-
-    if (session.user.toString() !== req.user.sub) {
-        throw new ApiError(403, "Unauthorized to rename this session");
-    }
-
-    session.displayName = displayName.trim();
-    await session.save();
+    const session = await sessionService.renameSession(client, sessionId, displayName);
 
     return res.status(200).json({
         message: "Session renamed successfully",
@@ -775,29 +715,25 @@ export const renameSession = async (req, res) => {
     });
 };
 
+/**
+ * Delete session
+ * @DELETE /api/questions/:sessionId
+ */
 export const deleteSession = async (req, res) => {
     const { sessionId } = req.params;
+    const client = createUserClient(req.user.token);
 
-    const session = await QuestionGenerationSession.findById(sessionId);
-    if (!session) {
-        throw new ApiError(404, "Session not found");
-    }
-
-    if (session.user.toString() !== req.user.sub) {
-        throw new ApiError(403, "Unauthorized to delete this session");
-    }
-
-    // Delete all practice attempts associated with this session
-    await QuestionPracticeAttempt.deleteMany({ generationSession: sessionId });
-
-    // Delete the session itself
-    await QuestionGenerationSession.findByIdAndDelete(sessionId);
+    await sessionService.deleteSession(client, sessionId);
 
     return res.status(200).json({
         message: "Session deleted successfully",
     });
 };
 
+/**
+ * Create custom blank or initial session
+ * @POST /api/questions/create
+ */
 export const createSession = async (req, res) => {
     const {
         targetRole,
@@ -809,8 +745,11 @@ export const createSession = async (req, res) => {
         displayName,
     } = req.body;
 
-    const session = await QuestionGenerationSession.create({
-        user: req.user.sub,
+    const userId = req.user.id || req.user.sub;
+    const client = createUserClient(req.user.token);
+
+    const session = await sessionService.createSession(client, {
+        userId,
         targetRole: targetRole || "",
         targetCompany: targetCompany || "",
         targetLevel: targetLevel || "mid",
@@ -820,11 +759,15 @@ export const createSession = async (req, res) => {
             ? resumeSkills.map((s) => s.toLowerCase())
             : [],
         displayName: displayName || null,
-        generatedQuestions: [],
-        mlDatasetQuestions: [],
+        status: "completed",
     });
 
-    const responseData = await shapeSessionForResponse(session);
+    const responseData = {
+        ...session,
+        answeredCount: 0,
+        totalQuestions: 0,
+        generatedQuestions: [],
+    };
 
     return res
         .status(201)

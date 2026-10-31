@@ -6,11 +6,20 @@ dotenv.config();
 const envSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   PORT: z.coerce.number().int().positive().default(5000),
-  FRONTEND_URL: z.string().url(),
-  MONGODB_URI: z.string().min(1),
-  JWT_ACCESS_SECRET: z.string().min(32),
+  FRONTEND_URL: z.string().url().default("http://localhost:5173"),
+  
+  // Supabase Configuration
+  SUPABASE_URL: z.string().url().default("https://ukulbyezmcvxcevfpflo.supabase.co"),
+  SUPABASE_ANON_KEY: z.string().min(1).optional().default(""),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional().default(""),
+  
+  // Legacy MongoDB & JWT (optional during migration transition)
+  MONGODB_URI: z.string().min(1).optional(),
+  JWT_ACCESS_SECRET: z.string().min(32).optional(),
   JWT_ACCESS_EXPIRY: z.string().default("15m"),
-  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32).optional(),
+  
+  // External Services
   GEMINI_API_KEY: z.preprocess(
     (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
     z.string().min(1).optional(),

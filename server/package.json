@@ -17,6 +17,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "axios": "^1.15.2",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
